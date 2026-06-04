@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detailed Project Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Times New Roman', Times, serif; line-height: 1.5; padding: 40px; font-size: 11pt; }
+        .page-break { page-break-before: always; }
+        h1 { font-size: 28pt; text-align: center; margin: 40px 0; text-transform: uppercase; }
+        h2 { font-size: 18pt; margin: 25px 0 15px; border-bottom: 2px solid #000; padding-bottom: 8px; }
+        h3 { font-size: 14pt; margin: 20px 0 12px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 10pt; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+        .cover { text-align: center; margin-top: 150px; }
+        .narrative-text { line-height: 1.6; text-align: justify; margin: 15px 0; }
+        .signature { margin-top: 50px; }
+        .signature-line { display: flex; justify-content: space-between; margin-top: 50px; }
+        .image-container { text-align: center; margin: 20px 0; }
+        .image-container img { max-width: 100%; max-height: 300px; object-fit: contain; border: 1px solid #ccc; border-radius: 8px; }
+        .image-caption { font-size: 9pt; text-align: center; margin-top: 5px; color: #555; }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <h1>DETAILED PROJECT REPORT (DPR)</h1>
+    <!-- Logo Image -->
+    <div class="image-container">
+        <img src="{{logo_url}}" alt="Company Logo" style="max-width: 200px; max-height: 100px; object-fit: contain;">
+    </div>
+    <div class="company">{{business_name}}</div>
+    <div class="details">
+        <p>Village: {{village}}</p>
+        <p>District: {{district}}</p>
+        <p>State: {{state}}</p>
+        <p>Generated on: {{generated_date}}</p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 1 -->
+<h2>1.0 EXECUTIVE SUMMARY</h2>
+<div class="narrative-text">{{executive_summary_text}}</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 2 -->
+<h2>2.0 BUSINESS DETAILS</h2>
+<div class="narrative-text">{{business_overview_text}}</div>
+
+<table>
+    <tr><th>FIELD</th><th>DETAILS</th></tr>
+    <tr><td>Business Name</td><td>{{business_name}}</td></tr>
+    <tr><td>Entity Type</td><td>{{entity_type}}</td></tr>
+    <tr><td>Location</td><td>{{full_address}}</td></tr>
+    <tr><td>Contact</td><td>{{contact_number}} | {{email}}</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 3 -->
+<h2>3.0 PRODUCT & TECHNOLOGY</h2>
+<div class="narrative-text">{{product_technology_text}}</div>
+
+<table>
+    <tr><th>FIELD</th><th>DETAILS</th></tr>
+    <tr><td>Product</td><td>{{primary_product}}</td></tr>
+    <tr><td>Daily Capacity</td><td>{{daily_capacity}} {{capacity_unit}}</td></tr>
+    <tr><td>Selling Price</td><td>₹{{selling_price}}/{{capacity_unit}}</td></tr>
+</table>
+
+<!-- Product Image -->
+<div class="image-container">
+    <img src="{{product_image_url}}" alt="Product Image">
+    <div class="image-caption">Figure 1: Product Sample</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 4 -->
+<h2>4.0 MARKET ANALYSIS</h2>
+<div class="narrative-text">{{market_analysis_text}}</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 5 -->
+<h2>5.0 FINANCIAL PROJECTIONS</h2>
+<table>
+    <thead>
+        <tr><th>Year</th><th>Revenue (₹)</th><th>PAT (₹)</th><th>Margin</th></tr>
+    </thead>
+    <tbody>
+        <tr><th>Year 1</th><td>{{rev_year1}}</td><td>{{pat_year1}}</td><td>{{pat_margin1}}%</td></tr>
+        <tr><th>Year 2</th><td>{{rev_year2}}</td><td>{{pat_year2}}</td><td>{{pat_margin2}}%</td></tr>
+        <tr><th>Year 3</th><td>{{rev_year3}}</td><td>{{pat_year3}}</td><td>{{pat_margin3}}%</td></tr>
+        <tr><th>Year 4</th><td>{{rev_year4}}</td><td>{{pat_year4}}</td><td>{{pat_margin4}}%</td></tr>
+        <tr><th>Year 5</th><td>{{rev_year5}}</td><td>{{pat_year5}}</td><td>{{pat_margin5}}%</td></tr>
+    </tbody>
+</table>
+
+<p><strong>Break-even Point:</strong> {{bep_units}} units ({{bep_percent}}% of capacity)</p>
+<p><strong>Break-even Period:</strong> {{bep_months}} months</p>
+
+<div class="page-break"></div>
+
+<!-- SECTION 6 -->
+<h2>6.0 TEAM STRUCTURE</h2>
+<table>
+    <thead>
+        <tr><th>NAME</th><th>DESIGNATION</th><th>AGE</th><th>QUALIFICATION</th><th>EXPERIENCE</th><th>RESPONSIBILITIES</th></tr>
+    </thead>
+    <tbody>
+        {{members_rows}}
+    </tbody>
+</table>
+
+<!-- Team Image -->
+<div class="image-container">
+    <img src="{{team_image_url}}" alt="Team Photo">
+    <div class="image-caption">Figure 2: Management Team</div>
+</div>
+
+<h3>Manpower Summary</h3>
+<table>
+    <tr><th>CATEGORY</th><th>PERSONS</th><th>MONTHLY COST (₹)</th></tr>
+    <tr><td>Management</td><td>{{mgmt_count}}</td><td>{{mgmt_cost_formatted}}</td></tr>
+    <tr><td>Supervisory</td><td>{{sup_count}}</td><td>{{sup_cost_formatted}}</td></tr>
+    <tr><td>Skilled Workers</td><td>{{skill_count}}</td><td>{{skill_cost_formatted}}</td></tr>
+    <tr><td>Unskilled Workers</td><td>{{unskill_count}}</td><td>{{unskill_cost_formatted}}</td></tr>
+    <tr><td>Administrative</td><td>{{admin_count}}</td><td>{{admin_cost_formatted}}</td></tr>
+    <tr style="font-weight: bold;"><td>TOTAL</td><td>{{total_staff_count}}</td><td>₹{{total_salary_cost}}</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 7 -->
+<h2>7.0 MACHINERY & EQUIPMENT</h2>
+<table>
+    <thead>
+        <tr><th>S. NO.</th><th>MACHINE NAME</th><th>QTY</th><th>UNIT PRICE (₹)</th><th>TOTAL (₹)</th></tr>
+    </thead>
+    <tbody>
+        {{machinery_rows}}
+        <tr style="font-weight: bold;"><td colspan="4">GRAND TOTAL</td><td>{{machinery_total_formatted}}</td></tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 8 -->
+<h2>8.0 INFRASTRUCTURE DETAILS</h2>
+<h3>Land & Building</h3>
+<ul>
+    <li><strong>Land Area:</strong> {{land_area}} acres</li>
+    <li><strong>Built-up Area:</strong> {{builtup_area}} sq. ft.</li>
+    <li><strong>Production Hall:</strong> {{production_hall_area}} sq. ft.</li>
+    <li><strong>Warehouse:</strong> {{warehouse_area}} sq. ft.</li>
+    <li><strong>Quality Lab:</strong> {{lab_area}} sq. ft.</li>
+    <li><strong>Admin Block:</strong> {{admin_area}} sq. ft.</li>
+</ul>
+
+<!-- Facility Image -->
+<div class="image-container">
+    <img src="{{facility_image_url}}" alt="Facility Image">
+    <div class="image-caption">Figure 3: Manufacturing Facility</div>
+</div>
+
+<h3>Utilities</h3>
+<ul>
+    <li><strong>Power:</strong> {{power_required}} HP</li>
+    <li><strong>Water:</strong> {{water_required}} L/day</li>
+    <li><strong>Internet:</strong> {{internet_speed}} Mbps Fiber</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- SECTION 9 -->
+<h2>9.0 SWOT ANALYSIS</h2>
+<div class="narrative-text">{{swot_analysis_text}}</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 10 -->
+<h2>10.0 SOCIAL & ENVIRONMENTAL IMPACT</h2>
+<div class="narrative-text">{{social_impact_text}}</div>
+
+<table>
+    <tr><th>Category</th><th>Number</th></tr>
+    <tr><td>Direct Employment</td><td>{{direct_employment}}</td></tr>
+    <tr><td>Indirect Employment</td><td>{{indirect_employment}}</td></tr>
+    <tr><td>Women Employment</td><td>{{women_employment}} ({{women_percent}}%)</td></tr>
+    <tr><td>Youth Employment</td><td>{{youth_employment}}</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 11 -->
+<h2>11.0 CREDIT PROFILE</h2>
+<table>
+    <tr><th>PARAMETER</th><th>DETAILS</th></tr>
+    <tr><td>CIBIL Score</td><td>{{cibil_score}}</td></tr>
+    <tr><td>Default History</td><td>{{default_history}}</td></tr>
+    <tr><td>Banking Relationship</td><td>{{banking_years}} years with {{bank_name}}</td></tr>
+</table>
+
+<h3>Proposed Loan Details</h3>
+<ul>
+    <li><strong>Loan Amount:</strong> ₹{{bank_loan_formatted}}</li>
+    <li><strong>Purpose:</strong> Term Loan for Project</li>
+    <li><strong>Tenure:</strong> 7 years (1-year moratorium)</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- SECTION 12 -->
+<h2>12.0 RISK ASSESSMENT</h2>
+<div class="narrative-text">{{risk_assessment_text}}</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 13 -->
+<h2>13.0 FINANCIAL NARRATIVE</h2>
+<div class="narrative-text">{{financial_narrative_text}}</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 14 -->
+<h2>14.0 DECLARATION</h2>
+<div class="narrative-text">{{declaration_text}}</div>
+
+<div class="signature">
+    <p><strong>Signature</strong></p>
+    <p>Place: {{place}}</p>
+    <p>Date: {{declaration_date}}</p>
+    <div class="signature-line">
+        <div>_________________________</div>
+        <div>{{declarant_name}}</div>
+        <div>{{designation}}</div>
+    </div>
+</div>
+
+</body>
+</html>

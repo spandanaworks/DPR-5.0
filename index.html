@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>DPR Studio | Bank-Ready Detailed Project Reports</title>
+  <!-- Google Fonts + Font Awesome 6 + Bootstrap Icons (light) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f7fc;
+      color: #0a1c2f;
+      line-height: 1.45;
+    }
+
+    .auth-fullscreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 2rem;
+      background-image: url('YES.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .auth-glass-card {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 2rem;
+      max-width: 480px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 30px 45px -12px rgba(0,0,0,0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-glass-card.register-card {
+      max-width: 520px;
+    }
+
+    .auth-grad-header {
+      background: linear-gradient(105deg, #0a1847, #0404b2);
+      padding: 2rem 1.8rem;
+      text-align: center;
+      color: white;
+    }
+    .auth-body-area {
+      padding: 2rem 2rem 2rem 2rem;
+    }
+    .btn-auth-primary {
+      background: linear-gradient(95deg, #0a1847, #0303a0);
+      border: none;
+      border-radius: 3rem;
+      padding: 0.85rem;
+      font-weight: 700;
+      color: white;
+      width: 100%;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-auth-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .dashboard-master {
+      display: none;
+    }
+    .flex-layout-dpr {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar-premium-dpr {
+      width: 290px;
+      background: linear-gradient(180deg, #0f172a 0%, #0a0f20 100%);
+      color: #eef2ff;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: 5px 0 20px rgba(0,0,0,0.2);
+      z-index: 20;
+      padding: 1.8rem 0 2rem 0;
+    }
+    .brand-logo {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 1.2rem;
+    }
+    .logo-text-glow {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: linear-gradient(120deg, #fbbf24, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .user-info-side {
+      background: rgba(255,255,255,0.05);
+      border-radius: 1.5rem;
+      padding: 0.8rem 1rem;
+      margin: 1.2rem 1.2rem 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .logout-side-btn {
+      background: rgba(239,68,68,0.15);
+      border: none;
+      color: #fecaca;
+      border-radius: 2rem;
+      padding: 0.6rem;
+      width: calc(100% - 2rem);
+      margin: 1rem 1rem 0 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nav-side-list {
+      list-style: none;
+      padding: 0.5rem 0.8rem;
+    }
+    .nav-side-item {
+      margin-bottom: 0.4rem;
+    }
+    .nav-link-side {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0.7rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #cbd5e6;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .nav-link-side i {
+      width: 26px;
+    }
+    .nav-link-side.active {
+      background: linear-gradient(95deg, #2563eb, #6d28d9);
+      color: white;
+      box-shadow: 0 6px 12px rgba(37,99,235,0.25);
+    }
+
+    .content-dpr-main {
+      flex: 1;
+      margin-left: 290px;
+      padding: 2.2rem 2.5rem 3rem 2.5rem;
+      background: #f8fafd;
+    }
+    .progress-top-card {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      border: 1px solid #eef2fa;
+    }
+    .progress-left-group {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .step-pill-badge {
+      background: #eef2ff;
+      border-radius: 3rem;
+      padding: 0.4rem 1.2rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #2563eb;
+    }
+    .progress-bar-line {
+      width: 260px;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    .progress-fill-dynamic {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+    }
+    .dpr-section-card {
+      background: white;
+      border-radius: 2rem;
+      padding: 2rem 2.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.03);
+      border: 1px solid #eef2fa;
+    }
+    .section-title-main {
+      font-size: 1.65rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f2a48, #2563eb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      border-left: 5px solid #f97316;
+      padding-left: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .grid-2, .grid-3, .grid-4 {
+      display: grid;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .input-modern {
+      background: #fafcff;
+      border: 1px solid #e2edf2;
+      border-radius: 1.2rem;
+      padding: 0.8rem 1.1rem;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: 0.2s;
+    }
+    .input-modern:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+      outline: none;
+      background: white;
+    }
+    .btn-next-spacious {
+      background: linear-gradient(105deg, #059669, #10b981);
+      border: none;
+      border-radius: 3rem;
+      padding: 0.75rem 2.2rem;
+      font-weight: 700;
+      color: white;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    .btn-outline-accent-add {
+      background: white;
+      border: 1.5px dashed #2563eb;
+      border-radius: 2rem;
+      padding: 0.6rem 1.4rem;
+      font-weight: 600;
+      color: #2563eb;
+      margin-top: 0.6rem;
+      cursor: pointer;
+    }
+    .table-elegant {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      margin: 0.5rem 0 1rem 0;
+    }
+    .table-elegant th {
+      background: #f1f5f9;
+      padding: 1rem 0.8rem;
+      font-weight: 700;
+    }
+    .table-elegant td {
+      padding: 0.8rem 0.6rem;
+      border-bottom: 1px solid #ecf3fa;
+    }
+    .btn-generate-warning {
+      background: linear-gradient(105deg, #f97316, #dc2626);
+      border: none;
+      border-radius: 3rem;
+      padding: 1rem 2.5rem;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 12px 18px -6px rgba(220,38,38,0.35);
+      cursor: pointer;
+    }
+    .image-preview {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .image-preview img {
+      max-width: 120px;
+      max-height: 80px;
+      border-radius: 8px;
+      border: 2px solid white;
+      object-fit: cover;
+    }
+    .upload-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .upload-card h6 {
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    .upload-card p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .upload-card .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .upload-item {
+      background: rgba(255,255,255,0.15);
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+    .upload-item label {
+      color: white;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .upload-item .input-modern {
+      background: white;
+    }
+    @media (max-width: 780px) {
+      .sidebar-premium-dpr { position: relative; width: 100%; height: auto; }
+      .content-dpr-main { margin-left: 0; padding: 1.5rem; }
+      .grid-2, .grid-3, .upload-card .grid-2 { grid-template-columns: 1fr; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="loginView" class="auth-fullscreen">
+  <div class="auth-glass-card">
+    <div class="auth-grad-header">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <img src="VKF.png" alt="VISION KARNATAKA FOUNDATION" style="max-width: 100%; height: auto; max-height: 90px; object-fit: contain;">
+      </div>
+      <h2 class="mt-2" style="font-size: 1.5rem;">WELCOME</h2>
+      <p style="font-size: 0.85rem; opacity: 0.9;">Enter your details to access your dashboard</p>
+    </div>
+    
+    <div class="auth-body-area">
+      <div id="loginErrorMsg" class="alert alert-danger" style="display:none; border-radius: 2rem; margin-bottom: 1rem;"></div>
+      
+      <form id="loginFormHandler">
+        <div style="margin-bottom: 1.2rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Email Address</label>
+          <input type="email" id="loginEmailField" class="input-modern" placeholder="john@company.com" required style="width: 100%;">
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Password</label>
+          <input type="password" id="loginPasswordField" class="input-modern" placeholder="••••••••" required style="width: 100%;">
+        </div>
+        
+        <button type="submit" class="btn-auth-primary" style="padding: 0.85rem; font-size: 1rem;">
+          Login <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+      
+      <div class="text-center mt-4" style="padding-top: 1rem; border-top: 1px solid #eef2fa;">
+        <span style="color: #64748b;">No account? </span>
+        <a href="#" id="showRegisterBtn" style="color: #7c3aed; font-weight: 600; text-decoration: none;">Create account</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER VIEW -->
+<div id="registerView" class="auth-fullscreen" style="display:none;">
+  <div class="auth-glass-card register-card">
+    <div class="auth-grad-header">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <img src="VKF.png" alt="VISION KARNATAKA FOUNDATION" style="max-width: 100%; height: auto; max-height: 65px; object-fit: contain;">
+      </div>
+      <h3 style="font-size: 1.4rem; margin-top: 0.5rem;">Create Account</h3>
+      <p style="font-size: 0.85rem; opacity: 0.9;">Enter your details to generate your dashboard</p>
+    </div>
+    
+    <div class="auth-body-area">
+      <div id="regErrorMsg" class="alert" style="display:none; border-radius: 2rem; margin-bottom: 1rem;"></div>
+      
+      <form id="registerFormHandler">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Full Name *</label>
+          <input type="text" id="regFullName" class="input-modern" placeholder="John Doe" required style="width: 100%;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Phone Number *</label>
+          <input type="tel" id="regPhoneNumber" class="input-modern" placeholder="+91 9876543210" required style="width: 100%;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Email Address *</label>
+          <input type="email" id="regEmailAddr" class="input-modern" placeholder="john@company.com" required style="width: 100%;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Company / Organization *</label>
+          <input type="text" id="regCompany" class="input-modern" placeholder="Acme Corp" required style="width: 100%;">
+        </div>
+        
+        <div style="margin-bottom: 1.2rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Service / Product *</label>
+          <textarea id="regService" class="input-modern" rows="2" placeholder="Describe your core product or service offering..." style="width: 100%; resize: vertical;"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Password *</label>
+          <input type="password" id="regPasswordInput" class="input-modern" placeholder="Create a password" required style="width: 100%;">
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: #475569;">Confirm Password *</label>
+          <input type="password" id="regConfirmInput" class="input-modern" placeholder="Confirm your password" required style="width: 100%;">
+        </div>
+        
+        <button type="submit" class="btn-auth-primary" style="padding: 0.85rem; font-size: 1rem;">
+          Start <i class="fas fa-rocket"></i>
+        </button>
+      </form>
+      
+      <div class="text-center mt-4" style="padding-top: 1rem; border-top: 1px solid #eef2fa;">
+        <span style="color: #64748b;">Already have an account? </span>
+        <a href="#" id="backToLoginBtn" style="color: #7c3aed; font-weight: 600; text-decoration: none;">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN DASHBOARD -->
+<div id="dashboardMainApp" class="dashboard-master">
+  <div class="flex-layout-dpr">
+    <aside class="sidebar-premium-dpr">
+      <div class="brand-logo">
+        <div style="text-align: center; margin-bottom: 1rem;">
+          <img src="VKF.png" alt="VISION KARNATAKA FOUNDATION" style="max-width: 100%; height: auto; max-height: 60px; object-fit: contain;">
+        </div>
+        <div style="text-align: center; margin-bottom: 1.2rem; font-size: 0.7rem; color: #facc15; font-weight: 600;">
+          VISION KARNATAKA FOUNDATION
+        </div>
+        <div class="user-info-side">
+          <i class="fas fa-user-astronaut fa-lg"></i> 
+          <span id="sideUserName">User</span>
+        </div>
+        <button id="globalLogoutButton" class="logout-side-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+      
+      <ul class="nav-side-list" id="sidebarNavigation">
+        <li class="nav-side-item" data-sidx="0"><div class="nav-link-side active"><i class="fas fa-building"></i> 01. Basic Information</div></li>
+        <li class="nav-side-item" data-sidx="1"><div class="nav-link-side"><i class="fas fa-users"></i> 02. Members</div></li>
+        <li class="nav-side-item" data-sidx="2"><div class="nav-link-side"><i class="fas fa-boxes"></i> 03. Product</div></li>
+        <li class="nav-side-item" data-sidx="3"><div class="nav-link-side"><i class="fas fa-microchip"></i> 04. Machinery</div></li>
+        <li class="nav-side-item" data-sidx="4"><div class="nav-link-side"><i class="fas fa-chart-line"></i> 05. Market</div></li>
+        <li class="nav-side-item" data-sidx="5"><div class="nav-link-side"><i class="fas fa-user-group"></i> 06. HR Plan</div></li>
+        <li class="nav-side-item" data-sidx="6"><div class="nav-link-side"><i class="fas fa-coins"></i> 07. Financials</div></li>
+        <li class="nav-side-item" data-sidx="7"><div class="nav-link-side"><i class="fas fa-chart-simple"></i> 08. Projections</div></li>
+        <li class="nav-side-item" data-sidx="8"><div class="nav-link-side"><i class="fas fa-hard-hat"></i> 09. Infrastructure</div></li>
+        <li class="nav-side-item" data-sidx="9"><div class="nav-link-side"><i class="fas fa-chart-pie"></i> 10. SWOT</div></li>
+        <li class="nav-side-item" data-sidx="10"><div class="nav-link-side"><i class="fas fa-hand-holding-heart"></i> 11. Social Impact</div></li>
+        <li class="nav-side-item" data-sidx="11"><div class="nav-link-side"><i class="fas fa-credit-card"></i> 12. Credit History</div></li>
+        <li class="nav-side-item" data-sidx="12"><div class="nav-link-side"><i class="fas fa-image"></i> 13. Upload Images</div></li>
+        <li class="nav-side-item" data-sidx="13"><div class="nav-link-side"><i class="fas fa-stamp"></i> 14. Declaration</div></li>
+      </ul>
+    </aside>
+
+    <main class="content-dpr-main">
+      <div class="progress-top-card">
+        <div class="progress-left-group"><span class="step-pill-badge"><i class="fas fa-layer-group"></i> Progress</span><div class="progress-bar-line"><div id="globalProgressFill" class="progress-fill-dynamic"></div></div><span id="stepCounterSpan" class="fw-bold">Step 1/14</span></div>
+        <div><i class="fas fa-file-alt text-primary"></i> <span class="text-muted">Detailed Project Report</span></div>
+      </div>
+
+      <!-- SECTION 01: BASIC INFO -->
+      <div id="sectionCard0" class="dpr-section-card">
+        <div class="section-title-main">🏢 Business Identity</div>
+        <div class="grid-2">
+          <input type="text" name="business_name" class="input-modern" placeholder="Business Name" required>
+          <input type="text" name="group_name" class="input-modern" placeholder="Group/Organization Name">
+        </div>
+        <textarea name="business_desc" class="input-modern" rows="2" placeholder="Brief Description of the Business"></textarea>
+        <div class="grid-3 mt-2">
+          <select name="entity_type" class="input-modern">
+            <option>Private Limited Company</option><option>LLP</option><option>Partnership</option>
+            <option>Proprietorship</option><option>JLG</option><option>SHG</option>
+          </select>
+          <input type="text" name="cin" class="input-modern" placeholder="CIN No.">
+          <input type="text" name="gst_no" class="input-modern" placeholder="GST No.">
+        </div>
+        <div class="grid-3">
+          <input type="text" name="pan_no" class="input-modern" placeholder="PAN No.">
+          <input type="text" name="udyam_no" class="input-modern" placeholder="MSME/Udyam No.">
+          <input type="text" name="fssai_no" class="input-modern" placeholder="FSSAI License No.">
+        </div>
+        <div class="grid-3">
+          <input type="text" name="village" class="input-modern" placeholder="Village/Town">
+          <input type="text" name="block" class="input-modern" placeholder="Block/Taluk">
+          <input type="text" name="district" class="input-modern" placeholder="District">
+          <input type="text" name="state" class="input-modern" placeholder="State">
+        </div>
+        <div class="grid-3">
+          <input type="text" name="contact_name" class="input-modern" placeholder="Contact Person Name">
+          <input type="text" name="contact_number" class="input-modern" placeholder="Contact Number">
+          <input type="email" name="email" class="input-modern" placeholder="Email Address">
+        </div>
+        <div class="grid-3">
+          <input type="text" name="bank_name" class="input-modern" placeholder="Bank Name">
+          <input type="text" name="bank_branch" class="input-modern" placeholder="Bank Branch">
+          <input type="text" name="account_number" class="input-modern" placeholder="Account Number">
+          <input type="text" name="ifsc" class="input-modern" placeholder="IFSC Code">
+        </div>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 02: MEMBERS -->
+      <div id="sectionCard1" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">👥 Members / Partners</div>
+        <div class="table-responsive"><table class="table-elegant"><thead><tr><th>#</th><th>Name</th><th>Designation</th><th>Gender</th><th>Age</th><th>Qualification</th><th>Experience</th><th>Mobile</th><th></th></tr></thead><tbody id="membersContainerTable"></tbody></table></div>
+        <button type="button" id="addMemberBtnDynamic" class="btn-outline-accent-add"><i class="fas fa-plus"></i> Add Member</button>
+        <button type="button" class="btn-next-spacious nextSectionBtn mt-3">Next →</button>
+      </div>
+
+      <!-- SECTION 03: PRODUCT -->
+      <div id="sectionCard2" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">📦 Product / Service Details</div>
+        <div class="grid-2">
+          <textarea name="primary_product" rows="2" class="input-modern" placeholder="Product Name / Category"></textarea>
+          <input type="text" name="hsn_code" class="input-modern" placeholder="HSN Code">
+        </div>
+        <div class="grid-3">
+          <input type="number" name="daily_capacity" class="input-modern" placeholder="Daily Production Capacity">
+          <select name="capacity_unit" class="input-modern"><option>kg</option><option>liters</option><option>pieces</option><option>units</option></select>
+          <input type="number" name="selling_price" class="input-modern" placeholder="Selling Price per Unit (₹)">
+        </div>
+        <textarea name="raw_materials" rows="2" class="input-modern" placeholder="Key Raw Materials Required"></textarea>
+        <div class="grid-3">
+          <input type="number" name="input_cost" class="input-modern" placeholder="Raw Material Cost per Unit (₹)">
+          <input type="number" name="working_days" class="input-modern" placeholder="Working Days per Year" value="300">
+          <input type="number" name="market_growth" class="input-modern" placeholder="Market Growth Rate (%)" value="20">
+        </div>
+        <textarea name="usp" rows="2" class="input-modern" placeholder="Unique Selling Proposition (USP)"></textarea>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 04: MACHINERY -->
+      <div id="sectionCard3" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">⚙️ Machinery & Equipment</div>
+        <div class="table-responsive"><table class="table-elegant"><thead><tr><th>#</th><th>Machine Name</th><th>Quantity</th><th>Unit Price (₹)</th><th>Total (₹)</th><th></th></tr></thead><tbody id="machineryTableDynamic"></tbody></table></div>
+        <button type="button" id="addMachineryBtnForm" class="btn-outline-accent-add"><i class="fas fa-plus"></i> Add Machinery</button>
+        <div class="grid-2 mt-3"><input type="text" name="supplier_name" placeholder="Supplier Name" class="input-modern"><input type="text" name="supplier_location" placeholder="Supplier Location" class="input-modern"></div>
+        <button type="button" class="btn-next-spacious nextSectionBtn mt-3">Next →</button>
+      </div>
+
+      <!-- SECTION 05: MARKET -->
+      <div id="sectionCard4" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">🎯 Market Analysis</div>
+        <textarea name="target_customers" rows="2" class="input-modern" placeholder="Target Customers / Market Segments"></textarea>
+        <textarea name="sales_location" rows="2" class="input-modern mt-3" placeholder="Sales Locations / Distribution Channels"></textarea>
+        <textarea name="competitors" rows="2" class="input-modern mt-3" placeholder="Main Competitors"></textarea>
+        <button type="button" class="btn-next-spacious nextSectionBtn mt-2">Next →</button>
+      </div>
+
+      <!-- SECTION 06: HR PLAN -->
+      <div id="sectionCard5" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">👷 Human Resource Plan</div>
+        <table class="table-elegant"><thead><tr><th>Category</th><th>Number of Persons</th><th>Monthly Salary (₹)</th><th>Monthly Cost (₹)</th></tr></thead><tbody>
+          <tr><td>Management</td><td><input type="number" id="mgmt_count" class="input-modern" value="5"></td><td><input type="number" id="mgmt_salary" class="input-modern" value="50000"></td><td><input type="number" id="mgmt_cost" readonly class="input-modern"></td></tr>
+          <tr><td>Supervisory</td><td><input type="number" id="sup_count" class="input-modern" value="5"></td><td><input type="number" id="sup_salary" class="input-modern" value="25000"></td><td><input type="number" id="sup_cost" readonly class="input-modern"></td></tr>
+          <tr><td>Skilled Workers</td><td><input type="number" id="skill_count" value="10" class="input-modern"></td><td><input id="skill_salary" value="20000" class="input-modern"></td><td><input id="skill_cost" readonly class="input-modern"></td></tr>
+          <tr><td>Unskilled Workers</td><td><input id="unskill_count" value="10" class="input-modern"></td><td><input id="unskill_salary" value="15000" class="input-modern"></td><td><input id="unskill_cost" readonly class="input-modern"></td></tr>
+          <tr><td>Administrative</td><td><input id="admin_count" value="3" class="input-modern"></td><td><input id="admin_salary" value="25000" class="input-modern"></td><td><input id="admin_cost" readonly class="input-modern"></td>
+        </tr>
+        </tbody><tfoot><tr><th>TOTAL</th><th id="total_staff_display">0</th><th></th><th id="total_salary_cost_display">0</th></tr></tfoot>
+        </table>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 07: FINANCIALS -->
+      <div id="sectionCard6" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">💰 Financial Estimates</div>
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem;">
+          <h6 style="color: white; margin-bottom: 0.5rem;">📎 Upload Balance Sheet (Optional)</h6>
+          <p style="color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-bottom: 1rem;">Upload your existing balance sheet (Excel/PDF)</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <input type="file" id="balanceSheetUpload" accept=".xlsx,.xls,.pdf,.csv" style="background: white; padding: 0.5rem; border-radius: 2rem; border: none;">
+            <button type="button" id="uploadBalanceSheetBtn" style="background: white; border: none; border-radius: 2rem; padding: 0.5rem 1.5rem; font-weight: 600; color: #667eea;"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+          </div>
+          <div id="uploadStatus" style="color: white; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
+        </div>
+        <h6 class="mt-2 mb-2">A. Project Cost Breakdown</h6>
+        <div class="grid-2"><input type="text" id="land_area" class="input-modern" placeholder="Land Area (acres)"><input type="number" id="land_cost" class="input-modern project-cost" placeholder="Land Cost (₹)"></div>
+        <div class="grid-2"><input type="text" id="building_area" class="input-modern" placeholder="Building Area (sq.ft.)"><input type="number" id="building_cost" class="input-modern project-cost" placeholder="Building Cost (₹)"></div>
+        <div class="grid-2"><input type="number" id="machinery_total" class="input-modern" readonly placeholder="Plant &amp; Machinery (₹)"><input type="number" id="furniture_cost" class="input-modern project-cost" placeholder="Furniture &amp; Fixtures (₹)"></div>
+        <div class="grid-2"><input type="number" id="working_capital" class="input-modern" placeholder="Working Capital (₹)" value="5000000"><input type="number" id="other_cost" class="input-modern" placeholder="Other Preliminary Expenses (₹)"></div>
+        <div class="grid-2"><strong>TOTAL PROJECT COST</strong><input type="number" id="total-cost" class="input-modern" readonly placeholder="₹"></div>
+        <h6 class="mt-3">B. Means of Finance</h6>
+        <div class="grid-2"><input type="number" id="promoter_contribution" class="input-modern" placeholder="Promoter's Contribution (₹)"><div style="display: flex; align-items: center; gap: 0.5rem;"><span>% of Total</span><input type="text" id="promoter_percent" class="input-modern" readonly style="flex: 1;"></div></div>
+        <div class="grid-2"><input type="number" id="bank_loan" class="input-modern" placeholder="Bank Loan / Term Loan (₹)"><div style="display: flex; align-items: center; gap: 0.5rem;"><span>% of Total</span><input type="text" id="loan_percent" class="input-modern" readonly style="flex: 1;"></div></div>
+        <div class="grid-2"><input type="number" id="subsidy" class="input-modern" placeholder="Subsidy / Grant (₹)"><div style="display: flex; align-items: center; gap: 0.5rem;"><span>% of Total</span><input type="text" id="subsidy_percent" class="input-modern" readonly style="flex: 1;"></div></div>
+        <div class="grid-2"><strong>TOTAL FUNDS</strong><input type="number" id="total-funds" class="input-modern" readonly placeholder="₹"><div></div><strong>100%</strong></div>
+        
+        <!-- Balance Sheet Section -->
+        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 1.5rem; margin-top: 1.5rem; border: 1px solid #e2e8f0;">
+          <h6 class="mb-3" style="color: #1e40af;">📊 BALANCE SHEET STATEMENT</h6>
+          <h6 class="mt-2 mb-2">C. Current Assets</h6>
+          <div class="grid-3"><input type="number" id="cash_in_hand" class="input-modern balance-input" placeholder="Cash in Hand (₹)" value="0"><input type="number" id="bank_balance" class="input-modern balance-input" placeholder="Bank Balance (₹)" value="0"><input type="number" id="inventory_value" class="input-modern balance-input" placeholder="Inventory Value (₹)" value="0"><input type="number" id="receivables" class="input-modern balance-input" placeholder="Accounts Receivable (₹)" value="0"></div>
+          <h6 class="mt-3 mb-2">D. Fixed Assets</h6>
+          <div class="grid-3"><input type="number" id="fixed_land" class="input-modern balance-input" placeholder="Land (₹)" value="0"><input type="number" id="fixed_building" class="input-modern balance-input" placeholder="Building (₹)" value="0"><input type="number" id="fixed_machinery" class="input-modern balance-input" placeholder="Machinery (₹)" value="0"><input type="number" id="fixed_furniture" class="input-modern balance-input" placeholder="Furniture (₹)" value="0"></div>
+          <div class="grid-2 mt-2"><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Total Current Assets:</strong><input type="number" id="total_current_assets" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="₹ 0"></div><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Total Fixed Assets:</strong><input type="number" id="total_fixed_assets" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="₹ 0"></div></div>
+          <div class="grid-2 mt-2"><div style="background: #dbeafe; padding: 0.75rem 1rem; border-radius: 1rem;"><strong style="color: #1e40af;">TOTAL ASSETS:</strong><input type="number" id="total_assets_bs" class="input-modern" readonly style="margin-top: 0.5rem; font-weight: bold; color: #1e40af;" placeholder="₹ 0"></div></div>
+          <h6 class="mt-4 mb-2">E. Liabilities</h6>
+          <div class="grid-3"><input type="number" id="short_term_loan" class="input-modern balance-input" placeholder="Short-term Loan (₹)" value="0"><input type="number" id="creditors" class="input-modern balance-input" placeholder="Creditors / Payables (₹)" value="0"><input type="number" id="long_term_loan" class="input-modern balance-input" placeholder="Long-term Loan (₹)" value="0"></div>
+          <div class="grid-2 mt-2"><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Total Current Liabilities:</strong><input type="number" id="total_current_liabilities" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="₹ 0"></div><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Total Long-term Liabilities:</strong><input type="number" id="total_long_term_liabilities" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="₹ 0"></div></div>
+          <div class="grid-2 mt-2"><div style="background: #fee2e2; padding: 0.75rem 1rem; border-radius: 1rem;"><strong style="color: #991b1b;">TOTAL LIABILITIES:</strong><input type="number" id="total_liabilities_bs" class="input-modern" readonly style="margin-top: 0.5rem; font-weight: bold; color: #991b1b;" placeholder="₹ 0"></div></div>
+          <h6 class="mt-4 mb-2">F. Equity</h6>
+          <div class="grid-2"><input type="number" id="owner_capital" class="input-modern balance-input" placeholder="Owner's Capital (₹)" value="0"><input type="number" id="retained_earnings" class="input-modern balance-input" placeholder="Retained Earnings (₹)" value="0"></div>
+          <div class="grid-2 mt-2"><div style="background: #dcfce7; padding: 0.75rem 1rem; border-radius: 1rem;"><strong style="color: #166534;">TOTAL EQUITY:</strong><input type="number" id="total_equity_bs" class="input-modern" readonly style="margin-top: 0.5rem; font-weight: bold; color: #166534;" placeholder="₹ 0"></div></div>
+          <h6 class="mt-4 mb-2">G. Balance Sheet Verification</h6>
+          <div class="grid-2"><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Liabilities + Equity:</strong><input type="number" id="liabilities_plus_equity" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="₹ 0"></div></div>
+          <div class="mt-2"><div id="balance_check_status" style="padding: 1rem; border-radius: 1rem; text-align: center; font-weight: bold; background: #fef3c7; color: #92400e;">⚠️ Enter values to verify balance sheet</div></div>
+          <h6 class="mt-4 mb-2">H. Key Financial Ratios</h6>
+          <div class="grid-3"><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Current Ratio:</strong><input type="text" id="current_ratio_display" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="0.00"></div><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Debt-Equity Ratio:</strong><input type="text" id="debt_equity_ratio_display" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="0.00"></div><div style="background: white; padding: 0.5rem 1rem; border-radius: 1rem;"><strong>Working Capital:</strong><input type="text" id="working_capital_display" class="input-modern" readonly style="margin-top: 0.5rem;" placeholder="₹ 0"></div></div>
+        </div>
+        <button type="button" class="btn-next-spacious nextSectionBtn" style="margin-top: 1.5rem;">Next →</button>
+      </div>
+
+      <!-- SECTION 08: PROJECTIONS -->
+      <div id="sectionCard7" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">📈 Financial Projections (5 Years)</div>
+        <div class="table-responsive"><table class="table-elegant"><thead><tr><th>Particulars (₹)</th><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th></tr></thead><tbody>
+          <tr><td>Capacity Utilization (%)</td>
+          <tr><td><input type="number" id="cap_year1" class="input-modern projection-input" value="60"></td>
+          <tr><td><input type="number" id="cap_year2" class="input-modern projection-input" value="75"></td>
+          <tr><td><input type="number" id="cap_year3" class="input-modern projection-input" value="85"></td>
+          <tr><td><input type="number" id="cap_year4" class="input-modern projection-input" value="90"></td>
+          <tr><td><input type="number" id="cap_year5" class="input-modern projection-input" value="95"></td>
+        </tr>
+        <tr><td>Revenue</td>
+          <tr><td><input type="number" id="rev_year1" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="rev_year2" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="rev_year3" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="rev_year4" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="rev_year5" class="input-modern" readonly></td>
+        </tr>
+        <tr><td>Operating Expenses (70%)</td>
+          <tr><td><input type="number" id="exp_year1" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="exp_year2" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="exp_year3" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="exp_year4" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="exp_year5" class="input-modern" readonly></td>
+        </tr>
+        <tr><td>PBDIT</td>
+          <tr><td><input type="number" id="pbdit_year1" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbdit_year2" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbdit_year3" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbdit_year4" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbdit_year5" class="input-modern" readonly></td>
+        </tr>
+        <tr><td>Interest (10% on loan)</td>
+          <tr><td><input type="number" id="int_year1" class="input-modern projection-input" value="2500000"></td>
+          <tr><td><input type="number" id="int_year2" class="input-modern projection-input" value="2250000"></td>
+          <tr><td><input type="number" id="int_year3" class="input-modern projection-input" value="2000000"></td>
+          <tr><td><input type="number" id="int_year4" class="input-modern projection-input" value="1750000"></td>
+          <tr><td><input type="number" id="int_year5" class="input-modern projection-input" value="1500000"></td>
+        </tr>
+        <tr><td>Depreciation</td>
+          <tr><td><input type="number" id="dep_year1" class="input-modern projection-input" value="880000"></td>
+          <tr><td><input type="number" id="dep_year2" class="input-modern projection-input" value="792000"></td>
+          <tr><td><input type="number" id="dep_year3" class="input-modern projection-input" value="713000"></td>
+          <tr><td><input type="number" id="dep_year4" class="input-modern projection-input" value="642000"></td>
+          <tr><td><input type="number" id="dep_year5" class="input-modern projection-input" value="578000"></td>
+        </tr>
+        <tr><td>PBT</td>
+          <tr><td><input type="number" id="pbt_year1" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbt_year2" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbt_year3" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbt_year4" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="pbt_year5" class="input-modern" readonly></td>
+        </tr>
+        <tr><td>Tax (25%)</td>
+          <tr><td><input type="number" id="tax_year1" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="tax_year2" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="tax_year3" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="tax_year4" class="input-modern" readonly></td>
+          <tr><td><input type="number" id="tax_year5" class="input-modern" readonly></td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td><strong>PAT (Net Profit)</strong></td>
+          <td><input type="number" id="pat_year1" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
+          <td><input type="number" id="pat_year2" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
+          <td><input type="number" id="pat_year3" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
+          <td><input type="number" id="pat_year4" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
+          <td><input type="number" id="pat_year5" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
+        </tr>
+      </tbody></table></div>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 09: INFRASTRUCTURE -->
+      <div id="sectionCard8" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">🏗️ Infrastructure Details</div>
+        <div class="grid-3"><input type="text" name="workspace" class="input-modern" placeholder="Workspace Status (Owned/Rented)"><input type="number" name="builtup_area" class="input-modern" placeholder="Built-up Area (sq.ft.)"><input type="number" name="power_required" class="input-modern" placeholder="Power Required (HP/KVA)"></div>
+        <div class="grid-3"><input type="number" name="water_required" class="input-modern" placeholder="Water Required (Liters/day)"><input type="number" name="monthly_rent" class="input-modern" placeholder="Monthly Rent (if rented) (₹)"><input type="number" name="start_time" class="input-modern" placeholder="Time to Start Operations (months)"></div>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 10: SWOT -->
+      <div id="sectionCard9" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">🔍 SWOT Analysis</div>
+        <textarea name="strengths" class="input-modern" rows="3" placeholder="Strengths"></textarea>
+        <textarea name="weaknesses" class="input-modern mt-3" rows="3" placeholder="Weaknesses"></textarea>
+        <textarea name="opportunities" class="input-modern mt-3" rows="3" placeholder="Opportunities"></textarea>
+        <textarea name="threats" class="input-modern mt-3" rows="3" placeholder="Threats"></textarea>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 11: SOCIAL IMPACT -->
+      <div id="sectionCard10" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">🌱 Social & Environmental Impact</div>
+        <div class="grid-3"><input type="number" name="local_employment" class="input-modern" placeholder="Local Employment (persons)"><input type="number" name="women_employment" class="input-modern" placeholder="Women Employment (persons)"><input type="number" name="youth_employment" class="input-modern" placeholder="Youth Employment (persons)"></div>
+        <div class="grid-2"><input type="text" name="eco_friendly" class="input-modern" placeholder="Eco-friendly Practices (Yes/No)"><input type="text" name="training" class="input-modern" placeholder="Training Provided (Yes/No)"></div>
+        <textarea name="eco_description" class="input-modern" rows="2" placeholder="Describe Eco-friendly Initiatives"></textarea>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 12: CREDIT HISTORY -->
+      <div id="sectionCard11" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">💳 Credit History</div>
+        <div class="grid-3"><input type="number" name="cibil_score" class="input-modern" placeholder="CIBIL Score" value="785"><input type="text" name="loan_before" class="input-modern" placeholder="Taken Loan Before? (Yes/No)"><input type="number" name="existing_loan" class="input-modern" placeholder="Existing Loan Amount (₹)"></div>
+        <div class="grid-2"><input type="number" name="outstanding" class="input-modern" placeholder="Outstanding Amount (₹)"><input type="text" name="default_history" class="input-modern" placeholder="Default History (Yes/No)"></div>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 13: IMAGE UPLOAD -->
+      <div id="sectionCard12" class="dpr-section-card" style="display:none;">
+        <div class="section-title-main">📸 Upload Images for Report</div>
+        <div class="upload-card">
+          <h6>Upload Images</h6>
+          <p>Upload your images - they will appear professionally in your PDF report</p>
+          <div class="grid-2">
+            <div class="upload-item">
+              <label><i class="fas fa-building"></i> Company Logo</label>
+              <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg,image/gif" class="input-modern">
+              <div id="logoPreview" class="image-preview"></div>
+              <p style="color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 0.5rem;">Appears on cover page</p>
+            </div>
+            <div class="upload-item">
+              <label><i class="fas fa-box"></i> Product Image</label>
+              <input type="file" id="productUpload" accept="image/jpeg,image/png,image/jpg,image/gif" class="input-modern">
+              <div id="productPreview" class="image-preview"></div>
+              <p style="color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 0.5rem;">Appears in Product section</p>
+            </div>
+            <div class="upload-item">
+              <label><i class="fas fa-industry"></i> Facility Image</label>
+              <input type="file" id="facilityUpload" accept="image/jpeg,image/png,image/jpg,image/gif" class="input-modern">
+              <div id="facilityPreview" class="image-preview"></div>
+              <p style="color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 0.5rem;">Appears in Infrastructure section</p>
+            </div>
+            <div class="upload-item">
+              <label><i class="fas fa-users"></i> Team Photo</label>
+              <input type="file" id="teamUpload" accept="image/jpeg,image/png,image/jpg,image/gif" class="input-modern">
+              <div id="teamPreview" class="image-preview"></div>
+              <p style="color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 0.5rem;">Appears in Team section</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+            <button type="button" id="uploadImagesBtn" style="background: white; border: none; border-radius: 2rem; padding: 0.75rem 2rem; font-weight: 700; color: #667eea;">
+              <i class="fas fa-cloud-upload-alt"></i> Upload All Images
+            </button>
+          </div>
+          <div id="imageUploadStatus" style="color: white; font-size: 0.8rem; text-align: center; margin-top: 0.5rem; display: none;"></div>
+        </div>
+        <div class="highlight-box" style="background: #f0fdf4; border-left-color: #22c55e; padding: 1rem; border-radius: 1rem;">
+          <p style="font-size: 0.85rem; margin: 0;"><i class="fas fa-info-circle"></i> <strong>Tip:</strong> Upload high-quality images (JPEG/PNG, max 5MB each). Images will be resized automatically to fit perfectly in your PDF report.</p>
+        </div>
+        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+      </div>
+
+      <!-- SECTION 14: DECLARATION & REPORT -->
+      <div id="sectionCard13" class="dpr-section-card" style="display:none; padding: 2rem 2.5rem;">
+        <div class="section-title-main" style="margin-bottom: 2rem;">📄 Declaration & Report Generation</div>
+        <div class="grid-3" style="margin-bottom: 2rem;"><input type="text" name="declarant_name" class="input-modern" placeholder="Declarant Name"><input type="text" name="designation" class="input-modern" placeholder="Designation"><input type="text" name="place" class="input-modern" placeholder="Place"></div>
+        <div style="margin-bottom: 2.5rem;"><input type="date" name="declaration_date" class="input-modern" id="declaration-date" style="width: 100%; max-width: 320px;"></div>
+        <div class="highlight-box" style="background: #fef3c7; border-left-color: #f59e0b; margin-bottom: 2rem; padding: 1rem; border-radius: 1rem;">
+          <p style="font-size: 0.85rem; margin: 0;"><i class="fas fa-gavel"></i> <strong>Legal Declaration:</strong> By generating this report, you confirm that all information provided is true and accurate to the best of your knowledge.</p>
+        </div>
+        <hr style="margin: 2rem 0 3rem 0; border: none; border-top: 1px solid #eef2fa;">
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0 1rem 0;">
+          <button type="button" class="btn-generate-warning" id="generateReportBtn" style="padding: 1rem 2.5rem; font-size: 1rem; min-width: 250px;">
+            <i class="fas fa-file-alt"></i> GENERATE REPORT
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  // ----------------- AUTH SYSTEM -----------------
+  let usersDb = JSON.parse(localStorage.getItem('dpr_users_main')) || [];
+  if(usersDb.length===0) usersDb.push({id:1,name:"Demo User",email:"demo@example.com",password:"demo123"});
+  let activeSession = JSON.parse(sessionStorage.getItem('dpr_current_user_main')) || null;
+  function renderAuthUI(){ if(activeSession){ document.getElementById('loginView').style.display='none'; document.getElementById('registerView').style.display='none'; document.getElementById('dashboardMainApp').style.display='block'; document.getElementById('sideUserName').innerText=activeSession.name; } else { document.getElementById('loginView').style.display='flex'; document.getElementById('registerView').style.display='none'; document.getElementById('dashboardMainApp').style.display='none'; } }
+  document.getElementById('loginFormHandler')?.addEventListener('submit',(e)=>{ e.preventDefault(); let u=usersDb.find(u=>u.email===document.getElementById('loginEmailField').value && u.password===document.getElementById('loginPasswordField').value); if(u){ activeSession={id:u.id,name:u.name,email:u.email}; sessionStorage.setItem('dpr_current_user_main',JSON.stringify(activeSession)); renderAuthUI(); } else { let errDiv=document.getElementById('loginErrorMsg'); errDiv.innerText="Invalid credentials (demo@example.com / demo123)"; errDiv.style.display='block'; setTimeout(()=>errDiv.style.display='none',2000); } });
+  document.getElementById('registerFormHandler')?.addEventListener('submit',(e)=>{ e.preventDefault(); let name=document.getElementById('regFullName').value,email=document.getElementById('regEmailAddr').value,pwd=document.getElementById('regPasswordInput').value,conf=document.getElementById('regConfirmInput').value; if(pwd!==conf){ alert("Passwords mismatch");return;} if(usersDb.find(u=>u.email===email)){ alert("Email exists");return;} usersDb.push({id:usersDb.length+1,name,email,password:pwd}); localStorage.setItem('dpr_users_main',JSON.stringify(usersDb)); alert("Registration success! Please login."); document.getElementById('loginView').style.display='flex'; document.getElementById('registerView').style.display='none'; });
+  document.getElementById('showRegisterBtn')?.addEventListener('click',()=>{ document.getElementById('loginView').style.display='none'; document.getElementById('registerView').style.display='flex'; });
+  document.getElementById('backToLoginBtn')?.addEventListener('click',()=>{ document.getElementById('registerView').style.display='none'; document.getElementById('loginView').style.display='flex'; });
+  document.getElementById('globalLogoutButton')?.addEventListener('click',()=>{ sessionStorage.removeItem('dpr_current_user_main'); activeSession=null; renderAuthUI(); });
+  
+  // ----------------- NAVIGATION (14 sections) -----------------
+  let allSections = Array.from({length:14},(_,i)=>document.getElementById(`sectionCard${i}`));
+  let currentSectionIdx = 0;
+  function setActiveSection(idx){ allSections.forEach((sec,i)=>{ if(sec) sec.style.display = i===idx ? 'block' : 'none'; }); let pct=((idx+1)/14)*100; let progressFill = document.getElementById('globalProgressFill'); if(progressFill) progressFill.style.width=`${pct}%`; let stepSpan = document.getElementById('stepCounterSpan'); if(stepSpan) stepSpan.innerText=`Step ${idx+1}/14`; document.querySelectorAll('.nav-link-side').forEach((el,i)=>{ if(i===idx) el.classList.add('active'); else el.classList.remove('active'); }); }
+  document.querySelectorAll('.nextSectionBtn').forEach(btn=>btn.addEventListener('click',()=>{ if(currentSectionIdx<13){ currentSectionIdx++; setActiveSection(currentSectionIdx); window.scrollTo(0,0); } }));
+  document.querySelectorAll('[data-sidx]').forEach(el=>{ el.addEventListener('click',()=>{ currentSectionIdx=parseInt(el.getAttribute('data-sidx')); setActiveSection(currentSectionIdx); }); });
+  setActiveSection(0);
+  
+  // ----------------- MEMBERS DYNAMIC -----------------
+  let memberId=1; const membersTbody=document.getElementById('membersContainerTable'); 
+  function addMemberRow(){ let tr=document.createElement('tr'); tr.innerHTML=`<td>${memberId}</td><td><input class="input-modern member-name"></td><td><input class="input-modern member-role"></td><td><input class="input-modern member-age"></td><td><input class="input-modern member-qual"></td><td><input class="input-modern member-exp"></td><td><input class="input-modern member-mobile"></td><td><button class="btn-outline-accent-add removeMem">Remove</button></td>`; membersTbody.appendChild(tr); tr.querySelector('.removeMem').onclick=()=>tr.remove(); memberId++; } 
+  document.getElementById('addMemberBtnDynamic')?.addEventListener('click',addMemberRow); addMemberRow();
+  
+  // ----------------- MACHINERY DYNAMIC -----------------
+  let machineryRows=[]; const machBody=document.getElementById('machineryTableDynamic'); 
+  function addMachineryLine(){ let idx=machineryRows.length+1; let row=document.createElement('tr'); row.innerHTML=`<td>${idx}</td><td><input class="input-modern mach-name"></td><td><input type="number" class="input-modern mach-qty" value="1"></td><td><input type="number" class="input-modern mach-price"></td><td><input class="input-modern mach-total" readonly></td><td><button class="btn-outline-accent-add removeMach">✖</button></td>`; machBody.appendChild(row); row.querySelector('.mach-qty').addEventListener('input',()=>updateMachTotal(row)); row.querySelector('.mach-price').addEventListener('input',()=>updateMachTotal(row)); row.querySelector('.removeMach').onclick=()=>{ row.remove(); updateMachinerySum(); }; updateMachTotal(row); } 
+  function updateMachTotal(row){ let qty=Number(row.querySelector('.mach-qty').value)||0; let price=Number(row.querySelector('.mach-price').value)||0; row.querySelector('.mach-total').value=qty*price; updateMachinerySum(); } 
+  function updateMachinerySum(){ let sum=0; document.querySelectorAll('.mach-total').forEach(inp=>sum+=Number(inp.value)||0); let machineryTotal = document.getElementById('machinery_total'); if(machineryTotal) machineryTotal.value=sum; calculateTotalCost(); } 
+  document.getElementById('addMachineryBtnForm')?.addEventListener('click',addMachineryLine); for(let i=0;i<2;i++) addMachineryLine();
+  
+  // ----------------- STAFF CALCULATIONS -----------------
+  function calcStaff(){ let mgmt=Number(document.getElementById('mgmt_count')?.value||0)*Number(document.getElementById('mgmt_salary')?.value||0); let sup=Number(document.getElementById('sup_count')?.value||0)*Number(document.getElementById('sup_salary')?.value||0); let skill=Number(document.getElementById('skill_count')?.value||0)*Number(document.getElementById('skill_salary')?.value||0); let unskill=Number(document.getElementById('unskill_count')?.value||0)*Number(document.getElementById('unskill_salary')?.value||0); let admin=Number(document.getElementById('admin_count')?.value||0)*Number(document.getElementById('admin_salary')?.value||0); let total=mgmt+sup+skill+unskill+admin; let staffCount=Number(document.getElementById('mgmt_count')?.value||0)+Number(document.getElementById('sup_count')?.value||0)+Number(document.getElementById('skill_count')?.value||0)+Number(document.getElementById('unskill_count')?.value||0)+Number(document.getElementById('admin_count')?.value||0); let mgmtCost = document.getElementById('mgmt_cost'); if(mgmtCost) mgmtCost.value=mgmt; let supCost = document.getElementById('sup_cost'); if(supCost) supCost.value=sup; let skillCost = document.getElementById('skill_cost'); if(skillCost) skillCost.value=skill; let unskillCost = document.getElementById('unskill_cost'); if(unskillCost) unskillCost.value=unskill; let adminCost = document.getElementById('admin_cost'); if(adminCost) adminCost.value=admin; let totalStaffDisplay = document.getElementById('total_staff_display'); if(totalStaffDisplay) totalStaffDisplay.innerText=staffCount; let totalSalaryDisplay = document.getElementById('total_salary_cost_display'); if(totalSalaryDisplay) totalSalaryDisplay.innerText=total.toLocaleString(); } 
+  document.querySelectorAll('#mgmt_count,#mgmt_salary,#sup_count,#sup_salary,#skill_count,#skill_salary,#unskill_count,#unskill_salary,#admin_count,#admin_salary').forEach(el=>el?.addEventListener('input',calcStaff)); calcStaff();
+  
+  // ----------------- REVENUE PROJECTIONS -----------------
+  function calcRevenueProj(){ let dailyCap=Number(document.querySelector('input[name="daily_capacity"]')?.value)||0; let price=Number(document.querySelector('input[name="selling_price"]')?.value)||0; let maxRev=dailyCap*price*300; for(let i=1;i<=5;i++){ let cap=Number(document.getElementById(`cap_year${i}`)?.value)||0; let rev=Math.round(maxRev*cap/100); let revElem = document.getElementById(`rev_year${i}`); if(revElem) revElem.value=rev; } for(let i=1;i<=5;i++){ let rev=Number(document.getElementById(`rev_year${i}`)?.value)||0; let exp=rev*0.7; let pbdit=rev-exp; let interest=Number(document.getElementById(`int_year${i}`)?.value)||0; let dep=Number(document.getElementById(`dep_year${i}`)?.value)||0; let pbt=pbdit-interest-dep; let tax=pbt>0?Math.round(pbt*0.25):0; let pat=pbt-tax; let expElem = document.getElementById(`exp_year${i}`); if(expElem) expElem.value=exp; let pbditElem = document.getElementById(`pbdit_year${i}`); if(pbditElem) pbditElem.value=pbdit; let pbtElem = document.getElementById(`pbt_year${i}`); if(pbtElem) pbtElem.value=pbt; let taxElem = document.getElementById(`tax_year${i}`); if(taxElem) taxElem.value=tax; let patElem = document.getElementById(`pat_year${i}`); if(patElem) patElem.value=pat; } } 
+  document.querySelector('input[name="daily_capacity"]')?.addEventListener('input',calcRevenueProj); document.querySelector('input[name="selling_price"]')?.addEventListener('input',calcRevenueProj); for(let i=1;i<=5;i++) document.getElementById(`cap_year${i}`)?.addEventListener('input',calcRevenueProj); calcRevenueProj();
+  
+  // ----------------- PROJECT COST CALCULATION -----------------
+  function calculateTotalCost(){ let land=Number(document.getElementById('land_cost')?.value)||0; let building=Number(document.getElementById('building_cost')?.value)||0; let machinery=Number(document.getElementById('machinery_total')?.value)||0; let furniture=Number(document.getElementById('furniture_cost')?.value)||0; let wc=Number(document.getElementById('working_capital')?.value)||0; let other=Number(document.getElementById('other_cost')?.value)||0; let total=land+building+machinery+furniture+wc+other; let totalCostElem = document.getElementById('total-cost'); if(totalCostElem) totalCostElem.value=total; let promoter=Number(document.getElementById('promoter_contribution')?.value)||0; let loan=Number(document.getElementById('bank_loan')?.value)||0; let subsidy=Number(document.getElementById('subsidy')?.value)||0; let funds=promoter+loan+subsidy; let totalFundsElem = document.getElementById('total-funds'); if(totalFundsElem) totalFundsElem.value=funds; if(total>0){ let promoterPercent = document.getElementById('promoter_percent'); if(promoterPercent) promoterPercent.value=Math.round((promoter/total)*100)+'%'; let loanPercent = document.getElementById('loan_percent'); if(loanPercent) loanPercent.value=Math.round((loan/total)*100)+'%'; let subsidyPercent = document.getElementById('subsidy_percent'); if(subsidyPercent) subsidyPercent.value=Math.round((subsidy/total)*100)+'%'; } } 
+  document.querySelectorAll('.project-cost').forEach(el=>el?.addEventListener('input',calculateTotalCost)); calculateTotalCost();
+  
+  // ----------------- BALANCE SHEET CALCULATIONS -----------------
+  function calculateBalanceSheet() {
+      const cashInHand = Number(document.getElementById('cash_in_hand')?.value) || 0;
+      const bankBalance = Number(document.getElementById('bank_balance')?.value) || 0;
+      const inventory = Number(document.getElementById('inventory_value')?.value) || 0;
+      const receivables = Number(document.getElementById('receivables')?.value) || 0;
+      const totalCurrentAssets = cashInHand + bankBalance + inventory + receivables;
+      const fixedLand = Number(document.getElementById('fixed_land')?.value) || 0;
+      const fixedBuilding = Number(document.getElementById('fixed_building')?.value) || 0;
+      const fixedMachinery = Number(document.getElementById('fixed_machinery')?.value) || 0;
+      const fixedFurniture = Number(document.getElementById('fixed_furniture')?.value) || 0;
+      const totalFixedAssets = fixedLand + fixedBuilding + fixedMachinery + fixedFurniture;
+      const totalAssets = totalCurrentAssets + totalFixedAssets;
+      const shortTermLoan = Number(document.getElementById('short_term_loan')?.value) || 0;
+      const creditors = Number(document.getElementById('creditors')?.value) || 0;
+      const longTermLoan = Number(document.getElementById('long_term_loan')?.value) || 0;
+      const totalCurrentLiabilities = shortTermLoan + creditors;
+      const totalLiabilities = totalCurrentLiabilities + longTermLoan;
+      const ownerCapital = Number(document.getElementById('owner_capital')?.value) || 0;
+      const retainedEarnings = Number(document.getElementById('retained_earnings')?.value) || 0;
+      const totalEquity = ownerCapital + retainedEarnings;
+      const liabilitiesPlusEquity = totalLiabilities + totalEquity;
+      const isBalanced = Math.abs(totalAssets - liabilitiesPlusEquity) < 1;
+      const currentRatio = totalCurrentLiabilities > 0 ? (totalCurrentAssets / totalCurrentLiabilities).toFixed(2) : '∞';
+      const debtEquityRatio = totalEquity > 0 ? (totalLiabilities / totalEquity).toFixed(2) : '∞';
+      const workingCapital = totalCurrentAssets - totalCurrentLiabilities;
+      const totalCurrentAssetsElem = document.getElementById('total_current_assets');
+      const totalFixedAssetsElem = document.getElementById('total_fixed_assets');
+      const totalAssetsElem = document.getElementById('total_assets_bs');
+      const totalCurrentLiabilitiesElem = document.getElementById('total_current_liabilities');
+      const totalLongTermLiabilitiesElem = document.getElementById('total_long_term_liabilities');
+      const totalLiabilitiesElem = document.getElementById('total_liabilities_bs');
+      const totalEquityElem = document.getElementById('total_equity_bs');
+      const liabilitiesPlusEquityElem = document.getElementById('liabilities_plus_equity');
+      const currentRatioElem = document.getElementById('current_ratio_display');
+      const debtEquityRatioElem = document.getElementById('debt_equity_ratio_display');
+      const workingCapitalElem = document.getElementById('working_capital_display');
+      const balanceStatusElem = document.getElementById('balance_check_status');
+      if(totalCurrentAssetsElem) totalCurrentAssetsElem.value = totalCurrentAssets.toLocaleString();
+      if(totalFixedAssetsElem) totalFixedAssetsElem.value = totalFixedAssets.toLocaleString();
+      if(totalAssetsElem) totalAssetsElem.value = totalAssets.toLocaleString();
+      if(totalCurrentLiabilitiesElem) totalCurrentLiabilitiesElem.value = totalCurrentLiabilities.toLocaleString();
+      if(totalLongTermLiabilitiesElem) totalLongTermLiabilitiesElem.value = longTermLoan.toLocaleString();
+      if(totalLiabilitiesElem) totalLiabilitiesElem.value = totalLiabilities.toLocaleString();
+      if(totalEquityElem) totalEquityElem.value = totalEquity.toLocaleString();
+      if(liabilitiesPlusEquityElem) liabilitiesPlusEquityElem.value = liabilitiesPlusEquity.toLocaleString();
+      if(currentRatioElem) currentRatioElem.value = currentRatio;
+      if(debtEquityRatioElem) debtEquityRatioElem.value = debtEquityRatio;
+      if(workingCapitalElem) workingCapitalElem.value = `₹ ${workingCapital.toLocaleString()}`;
+      if(balanceStatusElem) {
+          if(totalAssets === 0 && liabilitiesPlusEquity === 0) {
+              balanceStatusElem.innerHTML = '⚠️ Enter values to verify balance sheet';
+              balanceStatusElem.style.background = '#fef3c7';
+              balanceStatusElem.style.color = '#92400e';
+          } else if(isBalanced) {
+              balanceStatusElem.innerHTML = '✅ BALANCE SHEET IS BALANCED ✓';
+              balanceStatusElem.style.background = '#d1fae5';
+              balanceStatusElem.style.color = '#065f46';
+          } else {
+              balanceStatusElem.innerHTML = `❌ BALANCE SHEET NOT BALANCED! Difference: ₹ ${Math.abs(totalAssets - liabilitiesPlusEquity).toLocaleString()}`;
+              balanceStatusElem.style.background = '#fee2e2';
+              balanceStatusElem.style.color = '#991b1b';
+          }
+      }
+  }
+  
+  function attachBalanceSheetEvents() {
+      const balanceInputs = ['cash_in_hand','bank_balance','inventory_value','receivables','fixed_land','fixed_building','fixed_machinery','fixed_furniture','short_term_loan','creditors','long_term_loan','owner_capital','retained_earnings'];
+      balanceInputs.forEach(id => { const element = document.getElementById(id); if(element) element.addEventListener('input', calculateBalanceSheet); });
+  }
+  
+  // ========== COLLECT FORM DATA ==========
+  function collectAllFormData() {
+      const data = {};
+      data.business_name = document.querySelector('input[name="business_name"]')?.value || '';
+      data.business_desc = document.querySelector('textarea[name="business_desc"]')?.value || '';
+      data.entity_type = document.querySelector('select[name="entity_type"]')?.value || '';
+      data.cin = document.querySelector('input[name="cin"]')?.value || '';
+      data.gst_no = document.querySelector('input[name="gst_no"]')?.value || '';
+      data.pan_no = document.querySelector('input[name="pan_no"]')?.value || '';
+      data.village = document.querySelector('input[name="village"]')?.value || '';
+      data.district = document.querySelector('input[name="district"]')?.value || '';
+      data.state = document.querySelector('input[name="state"]')?.value || '';
+      data.contact_name = document.querySelector('input[name="contact_name"]')?.value || '';
+      data.contact_number = document.querySelector('input[name="contact_number"]')?.value || '';
+      data.email = document.querySelector('input[name="email"]')?.value || '';
+      data.primary_product = document.querySelector('textarea[name="primary_product"]')?.value || '';
+      data.daily_capacity = document.querySelector('input[name="daily_capacity"]')?.value || 0;
+      data.capacity_unit = document.querySelector('select[name="capacity_unit"]')?.value || '';
+      data.selling_price = document.querySelector('input[name="selling_price"]')?.value || 0;
+      data.usp = document.querySelector('textarea[name="usp"]')?.value || '';
+      data.target_customers = document.querySelector('textarea[name="target_customers"]')?.value || '';
+      data.competitors = document.querySelector('textarea[name="competitors"]')?.value || '';
+      data.strengths = document.querySelector('textarea[name="strengths"]')?.value || '';
+      data.weaknesses = document.querySelector('textarea[name="weaknesses"]')?.value || '';
+      data.opportunities = document.querySelector('textarea[name="opportunities"]')?.value || '';
+      data.threats = document.querySelector('textarea[name="threats"]')?.value || '';
+      data.local_employment = document.querySelector('input[name="local_employment"]')?.value || 0;
+      data.women_employment = document.querySelector('input[name="women_employment"]')?.value || 0;
+      data.youth_employment = document.querySelector('input[name="youth_employment"]')?.value || 0;
+      data.eco_friendly = document.querySelector('input[name="eco_friendly"]')?.value || '';
+      data.cibil_score = document.querySelector('input[name="cibil_score"]')?.value || 0;
+      data.declarant_name = document.querySelector('input[name="declarant_name"]')?.value || '';
+      data.designation = document.querySelector('input[name="designation"]')?.value || '';
+      data.place = document.querySelector('input[name="place"]')?.value || '';
+      data.declaration_date = document.querySelector('input[name="declaration_date"]')?.value || new Date().toISOString().split('T')[0];
+      data.land_cost = document.getElementById('land_cost')?.value || 0;
+      data.building_cost = document.getElementById('building_cost')?.value || 0;
+      data.machinery_total = document.getElementById('machinery_total')?.value || 0;
+      data.furniture_cost = document.getElementById('furniture_cost')?.value || 0;
+      data.working_capital = document.getElementById('working_capital')?.value || 0;
+      data.other_cost = document.getElementById('other_cost')?.value || 0;
+      data.promoter_contribution = document.getElementById('promoter_contribution')?.value || 0;
+      data.bank_loan = document.getElementById('bank_loan')?.value || 0;
+      data.subsidy = document.getElementById('subsidy')?.value || 0;
+      for(let i=1;i<=5;i++) { data[`cap_year${i}`] = document.getElementById(`cap_year${i}`)?.value || 0; }
+      data.mgmt_count = document.getElementById('mgmt_count')?.value || 0;
+      data.mgmt_salary = document.getElementById('mgmt_salary')?.value || 0;
+      data.sup_count = document.getElementById('sup_count')?.value || 0;
+      data.sup_salary = document.getElementById('sup_salary')?.value || 0;
+      data.skill_count = document.getElementById('skill_count')?.value || 0;
+      data.skill_salary = document.getElementById('skill_salary')?.value || 0;
+      data.unskill_count = document.getElementById('unskill_count')?.value || 0;
+      data.unskill_salary = document.getElementById('unskill_salary')?.value || 0;
+      data.admin_count = document.getElementById('admin_count')?.value || 0;
+      data.admin_salary = document.getElementById('admin_salary')?.value || 0;
+      data.cash_in_hand = document.getElementById('cash_in_hand')?.value || 0;
+      data.bank_balance = document.getElementById('bank_balance')?.value || 0;
+      data.inventory_value = document.getElementById('inventory_value')?.value || 0;
+      data.receivables = document.getElementById('receivables')?.value || 0;
+      data.short_term_loan = document.getElementById('short_term_loan')?.value || 0;
+      data.creditors = document.getElementById('creditors')?.value || 0;
+      data.long_term_loan = document.getElementById('long_term_loan')?.value || 0;
+      data.owner_capital = document.getElementById('owner_capital')?.value || 0;
+      data.retained_earnings = document.getElementById('retained_earnings')?.value || 0;
+      const uploadedImages = JSON.parse(localStorage.getItem('uploaded_images') || '{}');
+      data.uploaded_images = uploadedImages;
+      return data;
+  }
+  
+  // ========== IMAGE UPLOAD FUNCTIONALITY ==========
+  function previewImage(input, previewId) {
+      const file = input.files[0];
+      if(file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              const previewDiv = document.getElementById(previewId);
+              if(previewDiv) previewDiv.innerHTML = `<img src="${e.target.result}" style="max-width:120px;max-height:80px;border-radius:8px;border:2px solid white;object-fit:cover;">`;
+          };
+          reader.readAsDataURL(file);
+      }
+  }
+  document.getElementById('logoUpload')?.addEventListener('change', function(e){ previewImage(this, 'logoPreview'); });
+  document.getElementById('productUpload')?.addEventListener('change', function(e){ previewImage(this, 'productPreview'); });
+  document.getElementById('facilityUpload')?.addEventListener('change', function(e){ previewImage(this, 'facilityPreview'); });
+  document.getElementById('teamUpload')?.addEventListener('change', function(e){ previewImage(this, 'teamPreview'); });
+  
+  async function uploadImageToBackend(file, type) {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('type', type);
+      try {
+          const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
+          const result = await response.json();
+          if(result.success) return result.url;
+      } catch(e) { console.error(`${type} upload error:`, e); }
+      return null;
+  }
+  
+  document.getElementById('uploadImagesBtn')?.addEventListener('click', async function() {
+      const btn = this;
+      const statusDiv = document.getElementById('imageUploadStatus');
+      const logoFile = document.getElementById('logoUpload').files[0];
+      const productFile = document.getElementById('productUpload').files[0];
+      const facilityFile = document.getElementById('facilityUpload').files[0];
+      const teamFile = document.getElementById('teamUpload').files[0];
+      if(!logoFile && !productFile && !facilityFile && !teamFile) {
+          if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='⚠️ Please select at least one image'; setTimeout(()=>{statusDiv.style.display='none';},3000); }
+          return;
+      }
+      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Uploading...';
+      btn.disabled = true;
+      if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='📤 Uploading images...'; statusDiv.style.color='white'; }
+      const uploadedUrls = {};
+      if(logoFile) { const url = await uploadImageToBackend(logoFile, 'logo'); if(url) uploadedUrls.logo = url; }
+      if(productFile) { const url = await uploadImageToBackend(productFile, 'product'); if(url) uploadedUrls.product = url; }
+      if(facilityFile) { const url = await uploadImageToBackend(facilityFile, 'facility'); if(url) uploadedUrls.facility = url; }
+      if(teamFile) { const url = await uploadImageToBackend(teamFile, 'team'); if(url) uploadedUrls.team = url; }
+      localStorage.setItem('uploaded_images', JSON.stringify(uploadedUrls));
+      if(statusDiv) { statusDiv.innerHTML='✅ Images uploaded! They will appear in your PDF.'; statusDiv.style.color='#d1fae5'; setTimeout(()=>{statusDiv.style.display='none';},3000); }
+      btn.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
+      setTimeout(()=>{ btn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Upload All Images'; btn.disabled=false; },2000);
+  });
+  
+  // ========== REPORT GENERATION ==========
+  document.getElementById('generateReportBtn')?.addEventListener('click', async function() {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Generating 20+ Page Report...';
+      btn.disabled = true;
+      try {
+          const reportData = collectAllFormData();
+          const response = await fetch('http://localhost:5000/api/dpr/generate-full-report', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(reportData)
+          });
+          if(response.ok) {
+              const blob = await response.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `DPR_${reportData.business_name || 'Report'}_${Date.now()}.pdf`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(url);
+          } else {
+              const error = await response.json();
+              alert('Error: ' + (error.error || 'Unknown error'));
+          }
+      } catch(error) {
+          console.error('Report generation error:', error);
+          alert('Backend not running. Start server on port 5000');
+      } finally {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+      }
+  });
+  
+  document.getElementById('uploadBalanceSheetBtn')?.addEventListener('click', async function() {
+      const fileInput = document.getElementById('balanceSheetUpload');
+      const file = fileInput?.files[0];
+      const statusDiv = document.getElementById('uploadStatus');
+      if(!file) { if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='❌ Please select a file first'; setTimeout(()=>{statusDiv.style.display='none';},3000); } return; }
+      if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='📤 Uploading and processing...'; }
+      const formData = new FormData(); formData.append('balanceSheet', file);
+      try {
+          const response = await fetch('http://localhost:5000/api/dpr/upload-balance-sheet', { method: 'POST', body: formData });
+          const result = await response.json();
+          if(result.success && result.data) {
+              if(statusDiv) statusDiv.innerHTML = '✅ Auto-filling fields...';
+              if(result.data.cash_in_hand) document.getElementById('cash_in_hand').value = result.data.cash_in_hand;
+              if(result.data.bank_balance) document.getElementById('bank_balance').value = result.data.bank_balance;
+              if(result.data.inventory_value) document.getElementById('inventory_value').value = result.data.inventory_value;
+              if(result.data.receivables) document.getElementById('receivables').value = result.data.receivables;
+              if(result.data.short_term_loan) document.getElementById('short_term_loan').value = result.data.short_term_loan;
+              if(result.data.creditors) document.getElementById('creditors').value = result.data.creditors;
+              if(result.data.long_term_loan) document.getElementById('long_term_loan').value = result.data.long_term_loan;
+              if(result.data.owner_capital) document.getElementById('owner_capital').value = result.data.owner_capital;
+              if(result.data.retained_earnings) document.getElementById('retained_earnings').value = result.data.retained_earnings;
+              calculateBalanceSheet(); calculateTotalCost();
+              if(statusDiv) setTimeout(()=>{ statusDiv.style.display='none'; },3000);
+          } else { if(statusDiv) { statusDiv.innerHTML='❌ Failed to process file'; setTimeout(()=>{statusDiv.style.display='none';},3000); } }
+      } catch(error) { console.error('Upload error:',error); if(statusDiv) { statusDiv.innerHTML='❌ Backend not available'; setTimeout(()=>{statusDiv.style.display='none';},3000); } }
+  });
+  
+  // Initialize
+  attachBalanceSheetEvents();
+  calculateBalanceSheet();
+  renderAuthUI();
+</script>
+</body>
+</html>
