@@ -2,34 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Detailed Project Report</title>
+    <title>Detailed Project Report - {{business_name}}</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Times New Roman', Times, serif; line-height: 1.5; padding: 40px; font-size: 11pt; }
-        .page-break { page-break-before: always; }
-        h1 { font-size: 28pt; text-align: center; margin: 40px 0; text-transform: uppercase; }
-        h2 { font-size: 18pt; margin: 25px 0 15px; border-bottom: 2px solid #000; padding-bottom: 8px; }
-        h3 { font-size: 14pt; margin: 20px 0 12px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 10pt; }
-        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        th { background-color: #f0f0f0; }
-        .cover { text-align: center; margin-top: 150px; }
-        .narrative-text { line-height: 1.6; text-align: justify; margin: 15px 0; }
-        .signature { margin-top: 50px; }
-        .signature-line { display: flex; justify-content: space-between; margin-top: 50px; }
-        .image-container { text-align: center; margin: 20px 0; }
-        .image-container img { max-width: 100%; max-height: 300px; object-fit: contain; border: 1px solid #ccc; border-radius: 8px; }
-        .image-caption { font-size: 9pt; text-align: center; margin-top: 5px; color: #555; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.5;
+            padding: 50px;
+            font-size: 11pt;
+            color: #1a1a1a;
+        }
+        
+        /* Page break - each section starts on new page */
+        .page-break {
+            page-break-before: always;
+        }
+        
+        /* Cover page styling */
+        .cover {
+            text-align: center;
+            margin-top: 200px;
+        }
+        
+        .cover h1 {
+            font-size: 32pt;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .cover .company {
+            font-size: 24pt;
+            margin: 30px 0;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .cover .details {
+            margin-top: 80px;
+            font-size: 12pt;
+            line-height: 1.8;
+        }
+        
+        /* Section headers */
+        h2 {
+            font-size: 18pt;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2c3e50;
+            color: #2c3e50;
+        }
+        
+        h3 {
+            font-size: 14pt;
+            margin: 20px 0 15px 0;
+            color: #34495e;
+        }
+        
+        h4 {
+            font-size: 12pt;
+            margin: 15px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        /* Paragraph text */
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        .narrative-text {
+            line-height: 1.6;
+            text-align: justify;
+            margin: 15px 0;
+        }
+        
+        /* Tables - PROFESSIONAL STYLING */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 10pt;
+        }
+        
+        th, td {
+            border: 1px solid #999;
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        /* Images */
+        .image-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .image-caption {
+            font-size: 9pt;
+            text-align: center;
+            margin-top: 8px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background-color: #e8f4f8;
+            border-left: 5px solid #2c3e50;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        /* Signature section */
+        .signature {
+            margin-top: 60px;
+        }
+        
+        .signature-line {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+        
+        /* Page number footer */
+        .page-number {
+            font-size: 9pt;
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
 
 <!-- COVER PAGE -->
 <div class="cover">
-    <h1>DETAILED PROJECT REPORT (DPR)</h1>
-    <!-- Logo Image -->
+    <h1>DETAILED PROJECT REPORT</h1>
     <div class="image-container">
-        <img src="{{logo_url}}" alt="Company Logo" style="max-width: 200px; max-height: 100px; object-fit: contain;">
+        <img src="{{logo_url}}" alt="Company Logo">
     </div>
     <div class="company">{{business_name}}</div>
     <div class="details">
@@ -42,38 +191,55 @@
 
 <div class="page-break"></div>
 
-<!-- SECTION 1 -->
+<!-- SECTION 1: EXECUTIVE SUMMARY -->
 <h2>1.0 EXECUTIVE SUMMARY</h2>
 <div class="narrative-text">{{executive_summary_text}}</div>
 
+<div class="highlight-box">
+    <h4>Project Snapshot</h4>
+    <table style="background: white;">
+        <tr><th style="width: 50%;">Particulars</th><th>Details</th></tr>
+        <tr><td>Project Cost</td><td>₹{{project_cost_cr}} Crores</td></tr>
+        <tr><td>Promoter Contribution</td><td>{{promoter_percent}}%</td></tr>
+        <tr><td>Bank Loan Required</td><td>{{loan_percent}}%</td></tr>
+        <tr><td>Break-even Period</td><td>{{bep_months}} months</td></tr>
+        <tr><td>Employment Generation</td><td>{{total_employment}} persons</td></tr>
+    </table>
+</div>
+
 <div class="page-break"></div>
 
-<!-- SECTION 2 -->
+<!-- SECTION 2: BUSINESS DETAILS -->
 <h2>2.0 BUSINESS DETAILS</h2>
 <div class="narrative-text">{{business_overview_text}}</div>
 
+<h3>2.1 Business Information</h3>
 <table>
-    <tr><th>FIELD</th><th>DETAILS</th></tr>
+    <tr><th style="width: 30%;">FIELD</th><th>DETAILS</th></tr>
     <tr><td>Business Name</td><td>{{business_name}}</td></tr>
     <tr><td>Entity Type</td><td>{{entity_type}}</td></tr>
-    <tr><td>Location</td><td>{{full_address}}</td></tr>
+    <tr><td>CIN No.</td><td>{{cin}}</td></tr>
+    <tr><td>GST No.</td><td>{{gst_no}}</td></tr>
+    <tr><td>PAN No.</td><td>{{pan_no}}</td></tr>
+    <tr><td>Address</td><td>{{full_address}}</td></tr>
     <tr><td>Contact</td><td>{{contact_number}} | {{email}}</td></tr>
 </table>
 
 <div class="page-break"></div>
 
-<!-- SECTION 3 -->
+<!-- SECTION 3: PRODUCT & TECHNOLOGY -->
 <h2>3.0 PRODUCT & TECHNOLOGY</h2>
 <div class="narrative-text">{{product_technology_text}}</div>
 
+<h3>3.1 Product Specifications</h3>
 <table>
-    <tr><th>FIELD</th><th>DETAILS</th></tr>
+    <tr><th style="width: 30%;">Parameter</th><th>Value</th></tr>
     <tr><td>Product</td><td>{{primary_product}}</td></tr>
     <tr><td>Daily Capacity</td><td>{{daily_capacity}} {{capacity_unit}}</td></tr>
     <tr><td>Selling Price</td><td>₹{{selling_price}}/{{capacity_unit}}</td></tr>
+    <tr><td>Annual Capacity</td><td>{{annual_capacity_kg}} kg</td></tr>
 </table>
 
-<!-- Product Image -->
 <div class="image-container">
     <img src="{{product_image_url}}" alt="Product Image">
     <div class="image-caption">Figure 1: Product Sample</div>
@@ -81,68 +247,82 @@
 
 <div class="page-break"></div>
 
-<!-- SECTION 4 -->
+<!-- SECTION 4: MARKET ANALYSIS -->
 <h2>4.0 MARKET ANALYSIS</h2>
 <div class="narrative-text">{{market_analysis_text}}</div>
 
+<h3>4.1 Target Market</h3>
+<ul>
+    <li><strong>Domestic (70%):</strong> Metro cities, Tier-2 cities, Institutional buyers</li>
+    <li><strong>Export (30%):</strong> USA, Europe, Middle East, Australia</li>
+</ul>
+
 <div class="page-break"></div>
 
-<!-- SECTION 5 -->
+<!-- SECTION 5: FINANCIAL PROJECTIONS -->
 <h2>5.0 FINANCIAL PROJECTIONS</h2>
+
+<h3>5.1 Year-wise Projections (5 Years)</h3>
 <table>
     <thead>
         <tr><th>Year</th><th>Revenue (₹)</th><th>PAT (₹)</th><th>Margin</th></tr>
     </thead>
     <tbody>
-        <tr><th>Year 1</th><td>{{rev_year1}}</td><td>{{pat_year1}}</td><td>{{pat_margin1}}%</td></tr>
-        <tr><th>Year 2</th><td>{{rev_year2}}</td><td>{{pat_year2}}</td><td>{{pat_margin2}}%</td></tr>
-        <tr><th>Year 3</th><td>{{rev_year3}}</td><td>{{pat_year3}}</td><td>{{pat_margin3}}%</td></tr>
-        <tr><th>Year 4</th><td>{{rev_year4}}</td><td>{{pat_year4}}</td><td>{{pat_margin4}}%</td></tr>
-        <tr><th>Year 5</th><td>{{rev_year5}}</td><td>{{pat_year5}}</td><td>{{pat_margin5}}%</td></tr>
+        <tr><td>Year 1</td><td>{{rev_year1}}</td><td>{{pat_year1}}</td><td>{{pat_margin1}}%</td></tr>
+        <tr><td>Year 2</td><td>{{rev_year2}}</td><td>{{pat_year2}}</td><td>{{pat_margin2}}%</td></tr>
+        <tr><td>Year 3</td><td>{{rev_year3}}</td><td>{{pat_year3}}</td><td>{{pat_margin3}}%</td></tr>
+        <tr><td>Year 4</td><td>{{rev_year4}}</td><td>{{pat_year4}}</td><td>{{pat_margin4}}%</td></tr>
+        <tr><td>Year 5</td><td>{{rev_year5}}</td><td>{{pat_year5}}</td><td>{{pat_margin5}}%</td></tr>
     </tbody>
 </table>
 
+<h3>5.2 Break-even Analysis</h3>
 <p><strong>Break-even Point:</strong> {{bep_units}} units ({{bep_percent}}% of capacity)</p>
 <p><strong>Break-even Period:</strong> {{bep_months}} months</p>
 
+<div class="highlight-box">
+    <p><strong>Analysis:</strong> The business shows strong financial viability with healthy profit margins and reasonable break-even period.</p>
+</div>
+
 <div class="page-break"></div>
 
-<!-- SECTION 6 -->
+<!-- SECTION 6: TEAM STRUCTURE -->
 <h2>6.0 TEAM STRUCTURE</h2>
+
+<h3>6.1 Key Members</h3>
 <table>
     <thead>
-        <tr><th>NAME</th><th>DESIGNATION</th><th>AGE</th><th>QUALIFICATION</th><th>EXPERIENCE</th><th>RESPONSIBILITIES</th></tr>
+        <tr><th>NAME</th><th>DESIGNATION</th><th>AGE</th><th>QUALIFICATION</th><th>EXPERIENCE</th></tr>
     </thead>
     <tbody>
         {{members_rows}}
     </tbody>
 </table>
 
-<!-- Team Image -->
 <div class="image-container">
     <img src="{{team_image_url}}" alt="Team Photo">
     <div class="image-caption">Figure 2: Management Team</div>
 </div>
 
-<h3>Manpower Summary</h3>
+<h3>6.2 Manpower Summary</h3>
 <table>
-    <tr><th>CATEGORY</th><th>PERSONS</th><th>MONTHLY COST (₹)</th></tr>
-    <tr><td>Management</td><td>{{mgmt_count}}</td><td>{{mgmt_cost_formatted}}</td></tr>
-    <tr><td>Supervisory</td><td>{{sup_count}}</td><td>{{sup_cost_formatted}}</td></tr>
-    <tr><td>Skilled Workers</td><td>{{skill_count}}</td><td>{{skill_cost_formatted}}</td></tr>
-    <tr><td>Unskilled Workers</td><td>{{unskill_count}}</td><td>{{unskill_cost_formatted}}</td></tr>
-    <tr><td>Administrative</td><td>{{admin_count}}</td><td>{{admin_cost_formatted}}</td></tr>
-    <tr style="font-weight: bold;"><td>TOTAL</td><td>{{total_staff_count}}</td><td>₹{{total_salary_cost}}</td></tr>
+    <thead><tr><th>CATEGORY</th><th>PERSONS</th><th>MONTHLY COST (₹)</th></tr></thead>
+    <tbody>
+        <tr><td>Management</td><td>{{mgmt_count}}</td><td>{{mgmt_cost_formatted}}</td></tr>
+        <tr><td>Supervisory</td><td>{{sup_count}}</td><td>{{sup_cost_formatted}}</td></tr>
+        <tr><td>Skilled Workers</td><td>{{skill_count}}</td><td>{{skill_cost_formatted}}</td></tr>
+        <tr><td>Unskilled Workers</td><td>{{unskill_count}}</td><td>{{unskill_cost_formatted}}</td></tr>
+        <tr><td>Administrative</td><td>{{admin_count}}</td><td>{{admin_cost_formatted}}</td></tr>
+        <tr style="font-weight: bold;"><td>TOTAL</td><td>{{total_staff_count}}</td><td>₹{{total_salary_cost}}</td></tr>
+    </tbody>
 </table>
 
 <div class="page-break"></div>
 
-<!-- SECTION 7 -->
+<!-- SECTION 7: MACHINERY & EQUIPMENT -->
 <h2>7.0 MACHINERY & EQUIPMENT</h2>
 <table>
-    <thead>
-        <tr><th>S. NO.</th><th>MACHINE NAME</th><th>QTY</th><th>UNIT PRICE (₹)</th><th>TOTAL (₹)</th></tr>
-    </thead>
+    <thead><tr><th>S. NO.</th><th>MACHINE NAME</th><th>QTY</th><th>UNIT PRICE (₹)</th><th>TOTAL (₹)</th></tr></thead>
     <tbody>
         {{machinery_rows}}
         <tr style="font-weight: bold;"><td colspan="4">GRAND TOTAL</td><td>{{machinery_total_formatted}}</td></tr>
@@ -151,9 +331,10 @@
 
 <div class="page-break"></div>
 
-<!-- SECTION 8 -->
+<!-- SECTION 8: INFRASTRUCTURE -->
 <h2>8.0 INFRASTRUCTURE DETAILS</h2>
-<h3>Land & Building</h3>
+
+<h3>8.1 Land & Building</h3>
 <ul>
     <li><strong>Land Area:</strong> {{land_area}} acres</li>
     <li><strong>Built-up Area:</strong> {{builtup_area}} sq. ft.</li>
@@ -163,31 +344,31 @@
     <li><strong>Admin Block:</strong> {{admin_area}} sq. ft.</li>
 </ul>
 
-<!-- Facility Image -->
 <div class="image-container">
     <img src="{{facility_image_url}}" alt="Facility Image">
     <div class="image-caption">Figure 3: Manufacturing Facility</div>
 </div>
 
-<h3>Utilities</h3>
+<h3>8.2 Utilities</h3>
 <ul>
-    <li><strong>Power:</strong> {{power_required}} HP</li>
-    <li><strong>Water:</strong> {{water_required}} L/day</li>
+    <li><strong>Power Required:</strong> {{power_required}} HP</li>
+    <li><strong>Water Required:</strong> {{water_required}} L/day</li>
     <li><strong>Internet:</strong> {{internet_speed}} Mbps Fiber</li>
 </ul>
 
 <div class="page-break"></div>
 
-<!-- SECTION 9 -->
+<!-- SECTION 9: SWOT ANALYSIS -->
 <h2>9.0 SWOT ANALYSIS</h2>
 <div class="narrative-text">{{swot_analysis_text}}</div>
 
 <div class="page-break"></div>
 
-<!-- SECTION 10 -->
+<!-- SECTION 10: SOCIAL & ENVIRONMENTAL IMPACT -->
 <h2>10.0 SOCIAL & ENVIRONMENTAL IMPACT</h2>
 <div class="narrative-text">{{social_impact_text}}</div>
 
+<h3>10.1 Impact Metrics</h3>
 <table>
     <tr><th>Category</th><th>Number</th></tr>
     <tr><td>Direct Employment</td><td>{{direct_employment}}</td></tr>
@@ -198,10 +379,10 @@
 
 <div class="page-break"></div>
 
-<!-- SECTION 11 -->
+<!-- SECTION 11: CREDIT PROFILE -->
 <h2>11.0 CREDIT PROFILE</h2>
 <table>
-    <tr><th>PARAMETER</th><th>DETAILS</th></tr>
+    <tr><th style="width: 40%;">PARAMETER</th><th>DETAILS</th></tr>
     <tr><td>CIBIL Score</td><td>{{cibil_score}}</td></tr>
     <tr><td>Default History</td><td>{{default_history}}</td></tr>
     <tr><td>Banking Relationship</td><td>{{banking_years}} years with {{bank_name}}</td></tr>
@@ -216,19 +397,19 @@
 
 <div class="page-break"></div>
 
-<!-- SECTION 12 -->
-<h2>12.0 RISK ASSESSMENT</h2>
+<!-- SECTION 12: RISK ASSESSMENT -->
+<h2>12.0 RISK ASSESSMENT & MITIGATION</h2>
 <div class="narrative-text">{{risk_assessment_text}}</div>
 
 <div class="page-break"></div>
 
-<!-- SECTION 13 -->
+<!-- SECTION 13: FINANCIAL NARRATIVE -->
 <h2>13.0 FINANCIAL NARRATIVE</h2>
 <div class="narrative-text">{{financial_narrative_text}}</div>
 
 <div class="page-break"></div>
 
-<!-- SECTION 14 -->
+<!-- SECTION 14: DECLARATION -->
 <h2>14.0 DECLARATION</h2>
 <div class="narrative-text">{{declaration_text}}</div>
 

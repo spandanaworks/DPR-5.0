@@ -299,7 +299,7 @@
       object-fit: cover;
     }
     .upload-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #02104f 0%, #3f59dc 100%);
       padding: 1.5rem;
       border-radius: 1.5rem;
       margin-bottom: 1.5rem;
@@ -639,77 +639,120 @@
         <button type="button" class="btn-next-spacious nextSectionBtn" style="margin-top: 1.5rem;">Next →</button>
       </div>
 
-      <!-- SECTION 08: PROJECTIONS -->
-      <div id="sectionCard7" class="dpr-section-card" style="display:none;">
-        <div class="section-title-main">📈 Financial Projections (5 Years)</div>
-        <div class="table-responsive"><table class="table-elegant"><thead><tr><th>Particulars (₹)</th><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th></tr></thead><tbody>
-          <tr><td>Capacity Utilization (%)</td>
-          <tr><td><input type="number" id="cap_year1" class="input-modern projection-input" value="60"></td>
-          <tr><td><input type="number" id="cap_year2" class="input-modern projection-input" value="75"></td>
-          <tr><td><input type="number" id="cap_year3" class="input-modern projection-input" value="85"></td>
-          <tr><td><input type="number" id="cap_year4" class="input-modern projection-input" value="90"></td>
-          <tr><td><input type="number" id="cap_year5" class="input-modern projection-input" value="95"></td>
-        </tr>
-        <tr><td>Revenue</td>
-          <tr><td><input type="number" id="rev_year1" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="rev_year2" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="rev_year3" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="rev_year4" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="rev_year5" class="input-modern" readonly></td>
-        </tr>
-        <tr><td>Operating Expenses (70%)</td>
-          <tr><td><input type="number" id="exp_year1" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="exp_year2" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="exp_year3" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="exp_year4" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="exp_year5" class="input-modern" readonly></td>
-        </tr>
-        <tr><td>PBDIT</td>
-          <tr><td><input type="number" id="pbdit_year1" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbdit_year2" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbdit_year3" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbdit_year4" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbdit_year5" class="input-modern" readonly></td>
-        </tr>
-        <tr><td>Interest (10% on loan)</td>
-          <tr><td><input type="number" id="int_year1" class="input-modern projection-input" value="2500000"></td>
-          <tr><td><input type="number" id="int_year2" class="input-modern projection-input" value="2250000"></td>
-          <tr><td><input type="number" id="int_year3" class="input-modern projection-input" value="2000000"></td>
-          <tr><td><input type="number" id="int_year4" class="input-modern projection-input" value="1750000"></td>
-          <tr><td><input type="number" id="int_year5" class="input-modern projection-input" value="1500000"></td>
-        </tr>
-        <tr><td>Depreciation</td>
-          <tr><td><input type="number" id="dep_year1" class="input-modern projection-input" value="880000"></td>
-          <tr><td><input type="number" id="dep_year2" class="input-modern projection-input" value="792000"></td>
-          <tr><td><input type="number" id="dep_year3" class="input-modern projection-input" value="713000"></td>
-          <tr><td><input type="number" id="dep_year4" class="input-modern projection-input" value="642000"></td>
-          <tr><td><input type="number" id="dep_year5" class="input-modern projection-input" value="578000"></td>
-        </tr>
-        <tr><td>PBT</td>
-          <tr><td><input type="number" id="pbt_year1" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbt_year2" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbt_year3" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbt_year4" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="pbt_year5" class="input-modern" readonly></td>
-        </tr>
-        <tr><td>Tax (25%)</td>
-          <tr><td><input type="number" id="tax_year1" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="tax_year2" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="tax_year3" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="tax_year4" class="input-modern" readonly></td>
-          <tr><td><input type="number" id="tax_year5" class="input-modern" readonly></td>
-        </tr>
-        <tr style="background:#f0fdf4;">
-          <td><strong>PAT (Net Profit)</strong></td>
-          <td><input type="number" id="pat_year1" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
-          <td><input type="number" id="pat_year2" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
-          <td><input type="number" id="pat_year3" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
-          <td><input type="number" id="pat_year4" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
-          <td><input type="number" id="pat_year5" class="input-modern" readonly style="font-weight:bold;color:#166534;"></td>
-        </tr>
-      </tbody></table></div>
-        <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
-      </div>
+     <!-- SECTION 7: PROJECTIONS -->
+<div id="sectionCard7" class="dpr-section-card" style="display:none;">
+    <div class="section-title-main">📈 Financial Projections (5 Years)</div>
+    
+    <div class="table-responsive">
+        <table class="table-elegant">
+            <thead>
+                <tr>
+                    <th>Particulars (₹)</th>
+                    <th>Year 1</th>
+                    <th>Year 2</th>
+                    <th>Year 3</th>
+                    <th>Year 4</th>
+                    <th>Year 5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Capacity Utilization (%)</td>
+                    <td><input type="number" id="cap_year1" class="input-modern projection-input" value="60"></td>
+                    <td><input type="number" id="cap_year2" class="input-modern projection-input" value="75"></td>
+                    <td><input type="number" id="cap_year3" class="input-modern projection-input" value="85"></td>
+                    <td><input type="number" id="cap_year4" class="input-modern projection-input" value="90"></td>
+                    <td><input type="number" id="cap_year5" class="input-modern projection-input" value="95"></td>
+                </tr>
+                <tr>
+                    <td>Revenue</td>
+                    <td><input type="number" id="rev_year1" class="input-modern" readonly></td>
+                    <td><input type="number" id="rev_year2" class="input-modern" readonly></td>
+                    <td><input type="number" id="rev_year3" class="input-modern" readonly></td>
+                    <td><input type="number" id="rev_year4" class="input-modern" readonly></td>
+                    <td><input type="number" id="rev_year5" class="input-modern" readonly></td>
+                </tr>
+                <tr>
+                    <td>Operating Expenses (70%)</td>
+                    <td><input type="number" id="exp_year1" class="input-modern" readonly></td>
+                    <td><input type="number" id="exp_year2" class="input-modern" readonly></td>
+                    <td><input type="number" id="exp_year3" class="input-modern" readonly></td>
+                    <td><input type="number" id="exp_year4" class="input-modern" readonly></td>
+                    <td><input type="number" id="exp_year5" class="input-modern" readonly></td>
+                </tr>
+                <tr>
+                    <td>PBDIT</td>
+                    <td><input type="number" id="pbdit_year1" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbdit_year2" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbdit_year3" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbdit_year4" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbdit_year5" class="input-modern" readonly></td>
+                </tr>
+                <tr>
+                    <td>Interest (10% on loan)</td>
+                    <td><input type="number" id="int_year1" class="input-modern projection-input" value="2500000"></td>
+                    <td><input type="number" id="int_year2" class="input-modern projection-input" value="2250000"></td>
+                    <td><input type="number" id="int_year3" class="input-modern projection-input" value="2000000"></td>
+                    <td><input type="number" id="int_year4" class="input-modern projection-input" value="1750000"></td>
+                    <td><input type="number" id="int_year5" class="input-modern projection-input" value="1500000"></td>
+                </tr>
+                <tr>
+                    <td>Depreciation</td>
+                    <td><input type="number" id="dep_year1" class="input-modern projection-input" value="880000"></td>
+                    <td><input type="number" id="dep_year2" class="input-modern projection-input" value="792000"></td>
+                    <td><input type="number" id="dep_year3" class="input-modern projection-input" value="713000"></td>
+                    <td><input type="number" id="dep_year4" class="input-modern projection-input" value="642000"></td>
+                    <td><input type="number" id="dep_year5" class="input-modern projection-input" value="578000"></td>
+                </tr>
+                <tr>
+                    <td>PBT</td>
+                    <td><input type="number" id="pbt_year1" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbt_year2" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbt_year3" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbt_year4" class="input-modern" readonly></td>
+                    <td><input type="number" id="pbt_year5" class="input-modern" readonly></td>
+                </tr>
+                <tr>
+                    <td>Tax (25%)</td>
+                    <td><input type="number" id="tax_year1" class="input-modern" readonly></td>
+                    <td><input type="number" id="tax_year2" class="input-modern" readonly></td>
+                    <td><input type="number" id="tax_year3" class="input-modern" readonly></td>
+                    <td><input type="number" id="tax_year4" class="input-modern" readonly></td>
+                    <td><input type="number" id="tax_year5" class="input-modern" readonly></td>
+                </tr>
+                <tr style="background: #f0fdf4;">
+                    <td><strong>PAT (Net Profit)</strong></td>
+                    <td><input type="number" id="pat_year1" class="input-modern" readonly style="font-weight: bold; color: #166534;"></td>
+                    <td><input type="number" id="pat_year2" class="input-modern" readonly style="font-weight: bold; color: #166534;"></td>
+                    <td><input type="number" id="pat_year3" class="input-modern" readonly style="font-weight: bold; color: #166534;"></td>
+                    <td><input type="number" id="pat_year4" class="input-modern" readonly style="font-weight: bold; color: #166534;"></td>
+                    <td><input type="number" id="pat_year5" class="input-modern" readonly style="font-weight: bold; color: #166534;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+</div>
+
+        <!-- SECTION 8: INFRASTRUCTURE -->
+        <div id="sectionCard8" class="dpr-section-card" style="display:none;">
+          <div class="section-title-main">🏗️ Infrastructure Details</div>
+          
+          <div class="grid-3">
+            <input type="text" name="workspace" class="input-modern" placeholder="Workspace Status (Owned/Rented)">
+            <input type="number" name="builtup_area" class="input-modern" placeholder="Built-up Area (sq.ft.)">
+            <input type="number" name="power_required" class="input-modern" placeholder="Power Required (HP/KVA)">
+          </div>
+          
+          <div class="grid-3">
+            <input type="number" name="water_required" class="input-modern" placeholder="Water Required (Liters/day)">
+            <input type="number" name="monthly_rent" class="input-modern" placeholder="Monthly Rent (if rented) (₹)">
+            <input type="number" name="start_time" class="input-modern" placeholder="Time to Start Operations (months)">
+          </div>
+          
+          <button type="button" class="btn-next-spacious nextSectionBtn">Next →</button>
+        </div>
 
       <!-- SECTION 09: INFRASTRUCTURE -->
       <div id="sectionCard8" class="dpr-section-card" style="display:none;">
@@ -994,73 +1037,153 @@
       return data;
   }
   
-  // ========== IMAGE UPLOAD FUNCTIONALITY ==========
   function previewImage(input, previewId) {
-      const file = input.files[0];
-      if(file) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-              const previewDiv = document.getElementById(previewId);
-              if(previewDiv) previewDiv.innerHTML = `<img src="${e.target.result}" style="max-width:120px;max-height:80px;border-radius:8px;border:2px solid white;object-fit:cover;">`;
-          };
-          reader.readAsDataURL(file);
-      }
-  }
-  document.getElementById('logoUpload')?.addEventListener('change', function(e){ previewImage(this, 'logoPreview'); });
-  document.getElementById('productUpload')?.addEventListener('change', function(e){ previewImage(this, 'productPreview'); });
-  document.getElementById('facilityUpload')?.addEventListener('change', function(e){ previewImage(this, 'facilityPreview'); });
-  document.getElementById('teamUpload')?.addEventListener('change', function(e){ previewImage(this, 'teamPreview'); });
-  
-  async function uploadImageToBackend(file, type) {
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('type', type);
-      try {
-          const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
-          const result = await response.json();
-          if(result.success) return result.url;
-      } catch(e) { console.error(`${type} upload error:`, e); }
-      return null;
-  }
-  
-  document.getElementById('uploadImagesBtn')?.addEventListener('click', async function() {
-      const btn = this;
-      const statusDiv = document.getElementById('imageUploadStatus');
-      const logoFile = document.getElementById('logoUpload').files[0];
-      const productFile = document.getElementById('productUpload').files[0];
-      const facilityFile = document.getElementById('facilityUpload').files[0];
-      const teamFile = document.getElementById('teamUpload').files[0];
-      if(!logoFile && !productFile && !facilityFile && !teamFile) {
-          if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='⚠️ Please select at least one image'; setTimeout(()=>{statusDiv.style.display='none';},3000); }
-          return;
-      }
-      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Uploading...';
-      btn.disabled = true;
-      if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='📤 Uploading images...'; statusDiv.style.color='white'; }
-      const uploadedUrls = {};
-      if(logoFile) { const url = await uploadImageToBackend(logoFile, 'logo'); if(url) uploadedUrls.logo = url; }
-      if(productFile) { const url = await uploadImageToBackend(productFile, 'product'); if(url) uploadedUrls.product = url; }
-      if(facilityFile) { const url = await uploadImageToBackend(facilityFile, 'facility'); if(url) uploadedUrls.facility = url; }
-      if(teamFile) { const url = await uploadImageToBackend(teamFile, 'team'); if(url) uploadedUrls.team = url; }
-      localStorage.setItem('uploaded_images', JSON.stringify(uploadedUrls));
-      if(statusDiv) { statusDiv.innerHTML='✅ Images uploaded! They will appear in your PDF.'; statusDiv.style.color='#d1fae5'; setTimeout(()=>{statusDiv.style.display='none';},3000); }
-      btn.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
-      setTimeout(()=>{ btn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Upload All Images'; btn.disabled=false; },2000);
-  });
-  
-  // ========== REPORT GENERATION ==========
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const previewDiv = document.getElementById(previewId);
+        if (previewDiv) {
+                previewDiv.innerHTML = `<img src="${e.target.result}" style="max-width:120px;max-height:80px;border-radius:8px;border:2px solid white;object-fit:cover;">`;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Attach preview events
+document.getElementById('logoUpload')?.addEventListener('change', function(e) { previewImage(this, 'logoPreview'); });
+document.getElementById('productUpload')?.addEventListener('change', function(e) { previewImage(this, 'productPreview'); });
+document.getElementById('facilityUpload')?.addEventListener('change', function(e) { previewImage(this, 'facilityPreview'); });
+document.getElementById('teamUpload')?.addEventListener('change', function(e) { previewImage(this, 'teamPreview'); });
+
+// ========== IMAGE UPLOAD BUTTON HANDLER ==========
+document.getElementById('uploadImagesBtn')?.addEventListener('click', async function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const btn = this;
+    const statusDiv = document.getElementById('imageUploadStatus');
+    
+    const logoFile = document.getElementById('logoUpload')?.files[0];
+    const productFile = document.getElementById('productUpload')?.files[0];
+    const facilityFile = document.getElementById('facilityUpload')?.files[0];
+    const teamFile = document.getElementById('teamUpload')?.files[0];
+    
+    if (!logoFile && !productFile && !facilityFile && !teamFile) {
+        alert('Please select at least one image');
+        return;
+    }
+    
+    btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Uploading...';
+    btn.disabled = true;
+    
+    if (statusDiv) {
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '📤 Uploading images...';
+    }
+    
+    const uploadedUrls = {};
+    
+    // Upload logo
+    if (logoFile) {
+        const formData = new FormData();
+        formData.append('image', logoFile);
+        formData.append('type', 'logo');
+        try {
+            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) uploadedUrls.logo = result.url;
+        } catch(e) { console.error('Logo upload error:', e); }
+    }
+    
+    // Upload product image
+    if (productFile) {
+        const formData = new FormData();
+        formData.append('image', productFile);
+        formData.append('type', 'product');
+        try {
+            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) uploadedUrls.product = result.url;
+        } catch(e) { console.error('Product upload error:', e); }
+    }
+    
+    // Upload facility image
+    if (facilityFile) {
+        const formData = new FormData();
+        formData.append('image', facilityFile);
+        formData.append('type', 'facility');
+        try {
+            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) uploadedUrls.facility = result.url;
+        } catch(e) { console.error('Facility upload error:', e); }
+    }
+    
+    // Upload team image
+    if (teamFile) {
+        const formData = new FormData();
+        formData.append('image', teamFile);
+        formData.append('type', 'team');
+        try {
+            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) uploadedUrls.team = result.url;
+        } catch(e) { console.error('Team upload error:', e); }
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('uploaded_images', JSON.stringify(uploadedUrls));
+    
+    if (statusDiv) {
+        const count = Object.keys(uploadedUrls).length;
+        statusDiv.innerHTML = `✅ ${count} image(s) uploaded successfully!`;
+        statusDiv.style.color = '#d1fae5';
+        setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
+    }
+    
+    btn.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload All Images';
+        btn.disabled = false;
+    }, 2000);
+    
+    console.log('Uploaded URLs:', uploadedUrls);
+});
+
+  // Report Generation Button Handler (with Auto-Save to Supabase)
   document.getElementById('generateReportBtn')?.addEventListener('click', async function() {
       const btn = this;
       const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Generating 20+ Page Report...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Generating Report & Saving to Cloud...';
       btn.disabled = true;
+      
       try {
           const reportData = collectAllFormData();
+          
+          // STEP 1: Save to Supabase
+          console.log('💾 Saving to Supabase...');
+          const saveResponse = await fetch('http://localhost:5000/api/dpr/save-report', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ reportData: reportData })
+          });
+          
+          const saveResult = await saveResponse.json();
+          if (saveResult.success) {
+              console.log('✅ Saved to cloud!');
+          } else {
+              console.warn('Save warning:', saveResult);
+          }
+          
+          // STEP 2: Generate PDF
           const response = await fetch('http://localhost:5000/api/dpr/generate-full-report', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(reportData)
           });
+          
           if(response.ok) {
               const blob = await response.blob();
               const url = window.URL.createObjectURL(blob);
@@ -1083,34 +1206,7 @@
           btn.disabled = false;
       }
   });
-  
-  document.getElementById('uploadBalanceSheetBtn')?.addEventListener('click', async function() {
-      const fileInput = document.getElementById('balanceSheetUpload');
-      const file = fileInput?.files[0];
-      const statusDiv = document.getElementById('uploadStatus');
-      if(!file) { if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='❌ Please select a file first'; setTimeout(()=>{statusDiv.style.display='none';},3000); } return; }
-      if(statusDiv) { statusDiv.style.display='block'; statusDiv.innerHTML='📤 Uploading and processing...'; }
-      const formData = new FormData(); formData.append('balanceSheet', file);
-      try {
-          const response = await fetch('http://localhost:5000/api/dpr/upload-balance-sheet', { method: 'POST', body: formData });
-          const result = await response.json();
-          if(result.success && result.data) {
-              if(statusDiv) statusDiv.innerHTML = '✅ Auto-filling fields...';
-              if(result.data.cash_in_hand) document.getElementById('cash_in_hand').value = result.data.cash_in_hand;
-              if(result.data.bank_balance) document.getElementById('bank_balance').value = result.data.bank_balance;
-              if(result.data.inventory_value) document.getElementById('inventory_value').value = result.data.inventory_value;
-              if(result.data.receivables) document.getElementById('receivables').value = result.data.receivables;
-              if(result.data.short_term_loan) document.getElementById('short_term_loan').value = result.data.short_term_loan;
-              if(result.data.creditors) document.getElementById('creditors').value = result.data.creditors;
-              if(result.data.long_term_loan) document.getElementById('long_term_loan').value = result.data.long_term_loan;
-              if(result.data.owner_capital) document.getElementById('owner_capital').value = result.data.owner_capital;
-              if(result.data.retained_earnings) document.getElementById('retained_earnings').value = result.data.retained_earnings;
-              calculateBalanceSheet(); calculateTotalCost();
-              if(statusDiv) setTimeout(()=>{ statusDiv.style.display='none'; },3000);
-          } else { if(statusDiv) { statusDiv.innerHTML='❌ Failed to process file'; setTimeout(()=>{statusDiv.style.display='none';},3000); } }
-      } catch(error) { console.error('Upload error:',error); if(statusDiv) { statusDiv.innerHTML='❌ Backend not available'; setTimeout(()=>{statusDiv.style.display='none';},3000); } }
-  });
-  
+
   // Initialize
   attachBalanceSheetEvents();
   calculateBalanceSheet();
