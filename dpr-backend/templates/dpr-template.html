@@ -16,9 +16,53 @@
             padding: 50px;
             font-size: 11pt;
             color: #1a1a1a;
+            position: relative;
+            background: white;
         }
         
-        /* Page break - each section starts on new page */
+        /* PROFESSIONAL PAGE BORDER */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #2c3e50;
+            border-radius: 4px;
+            pointer-events: none;
+            z-index: 999;
+            box-shadow: 0 0 0 1px #e0e0e0, inset 0 0 0 1px #e0e0e0;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 1px solid #bdc3c7;
+            pointer-events: none;
+            z-index: 998;
+        }
+        
+        /* VKF HEADER - Top Right Corner (Text Only) */
+        .vkf-header {
+            position: fixed;
+            top: 60px;
+            right: 35px;
+            font-size: 6pt;
+            font-weight: bold;
+            color: #2c3e50;
+            font-family: 'Times New Roman', Times, serif;
+            letter-spacing: 0.5px;
+            z-index: 1000;
+            text-align: right;
+            line-height: 1.6;
+        }
+        
+        /* Page break */
         .page-break {
             page-break-before: always;
         }
@@ -26,7 +70,7 @@
         /* Cover page styling */
         .cover {
             text-align: center;
-            margin-top: 200px;
+            margin-top: 150px;
         }
         
         .cover h1 {
@@ -34,6 +78,7 @@
             margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            color: #2c3e50;
         }
         
         .cover .company {
@@ -47,6 +92,18 @@
             margin-top: 80px;
             font-size: 12pt;
             line-height: 1.8;
+        }
+        
+        /* Company Logo styling */
+        .logo-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .logo-container img {
+            max-width: 200px;
+            max-height: 100px;
+            object-fit: contain;
         }
         
         /* Section headers */
@@ -82,7 +139,7 @@
             margin: 15px 0;
         }
         
-        /* Tables - PROFESSIONAL STYLING */
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -163,23 +220,31 @@
             margin-top: 50px;
         }
         
-        /* Page number footer */
-        .page-number {
-            font-size: 9pt;
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
+        /* Footer decorative line */
+        .footer-line {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            right: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, #2c3e50, #3498db, #2c3e50);
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
 
+<!-- VKF HEADER - Top Right Corner -->
+<div class="vkf-header">
+    VISION KARNATAKA FOUNDATION
+</div>
+
 <!-- COVER PAGE -->
 <div class="cover">
-    <h1>DETAILED PROJECT REPORT</h1>
-    <div class="image-container">
+    <div class="logo-container">
         <img src="{{logo_url}}" alt="Company Logo">
     </div>
+    <h1>DETAILED PROJECT REPORT</h1>
     <div class="company">{{business_name}}</div>
     <div class="details">
         <p>Village: {{village}}</p>
@@ -199,10 +264,12 @@
     <h4>Project Snapshot</h4>
     <table style="background: white;">
         <tr><th style="width: 50%;">Particulars</th><th>Details</th></tr>
+        <tr><td colspan="2"><strong>Financial Summary</strong></td></tr>
         <tr><td>Project Cost</td><td>₹{{project_cost_cr}} Crores</td></tr>
         <tr><td>Promoter Contribution</td><td>{{promoter_percent}}%</td></tr>
         <tr><td>Bank Loan Required</td><td>{{loan_percent}}%</td></tr>
         <tr><td>Break-even Period</td><td>{{bep_months}} months</td></tr>
+        <tr><td colspan="2"><strong>Impact Metrics</strong></td></tr>
         <tr><td>Employment Generation</td><td>{{total_employment}} persons</td></tr>
     </table>
 </div>
@@ -215,14 +282,18 @@
 
 <h3>2.1 Business Information</h3>
 <table>
-    <tr><th style="width: 30%;">FIELD</th><th>DETAILS</th></tr>
-    <tr><td>Business Name</td><td>{{business_name}}</td></tr>
-    <tr><td>Entity Type</td><td>{{entity_type}}</td></tr>
-    <tr><td>CIN No.</td><td>{{cin}}</td></tr>
-    <tr><td>GST No.</td><td>{{gst_no}}</td></tr>
-    <tr><td>PAN No.</td><td>{{pan_no}}</td></tr>
-    <tr><td>Address</td><td>{{full_address}}</td></tr>
-    <tr><td>Contact</td><td>{{contact_number}} | {{email}}</td></tr>
+    <thead>
+        <tr><th style="width: 30%;">FIELD</th><th>DETAILS</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Business Name</td><td>{{business_name}}</td></tr>
+        <tr><td>Entity Type</td><td>{{entity_type}}</td></tr>
+        <tr><td>CIN No.</td><td>{{cin}}</td></tr>
+        <tr><td>GST No.</td><td>{{gst_no}}</td></tr>
+        <tr><td>PAN No.</td><td>{{pan_no}}</td></tr>
+        <tr><td>Address</td><td>{{full_address}}</td></tr>
+        <tr><td>Contact</td><td>{{contact_number}} | {{email}}</td></tr>
+    </tbody>
 </table>
 
 <div class="page-break"></div>
@@ -233,11 +304,15 @@
 
 <h3>3.1 Product Specifications</h3>
 <table>
-    <tr><th style="width: 30%;">Parameter</th><th>Value</th></tr>
-    <tr><td>Product</td><td>{{primary_product}}</td></tr>
-    <tr><td>Daily Capacity</td><td>{{daily_capacity}} {{capacity_unit}}</td></tr>
-    <tr><td>Selling Price</td><td>₹{{selling_price}}/{{capacity_unit}}</td></tr>
-    <tr><td>Annual Capacity</td><td>{{annual_capacity_kg}} kg</td></tr>
+    <thead>
+        <tr><th style="width: 30%;">Parameter</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Product</td><td>{{primary_product}}</td></tr>
+        <tr><td>Daily Capacity</td><td>{{daily_capacity}} {{capacity_unit}}</td></tr>
+        <tr><td>Selling Price</td><td>₹{{selling_price}}/{{capacity_unit}}</td></tr>
+        <tr><td>Annual Capacity</td><td>{{annual_capacity_kg}} kg</td></tr>
+    </tbody>
 </table>
 
 <div class="image-container">
@@ -370,11 +445,13 @@
 
 <h3>10.1 Impact Metrics</h3>
 <table>
-    <tr><th>Category</th><th>Number</th></tr>
-    <tr><td>Direct Employment</td><td>{{direct_employment}}</td></tr>
-    <tr><td>Indirect Employment</td><td>{{indirect_employment}}</td></tr>
-    <tr><td>Women Employment</td><td>{{women_employment}} ({{women_percent}}%)</td></tr>
-    <tr><td>Youth Employment</td><td>{{youth_employment}}</td></tr>
+    <thead><tr><th>Category</th><th>Number</th></tr></thead>
+    <tbody>
+        <tr><td>Direct Employment</td><td>{{direct_employment}}</td></tr>
+        <tr><td>Indirect Employment</td><td>{{indirect_employment}}</td></tr>
+        <tr><td>Women Employment</td><td>{{women_employment}} ({{women_percent}}%)</td></tr>
+        <tr><td>Youth Employment</td><td>{{youth_employment}}</td></tr>
+    </tbody>
 </table>
 
 <div class="page-break"></div>
@@ -382,10 +459,12 @@
 <!-- SECTION 11: CREDIT PROFILE -->
 <h2>11.0 CREDIT PROFILE</h2>
 <table>
-    <tr><th style="width: 40%;">PARAMETER</th><th>DETAILS</th></tr>
-    <tr><td>CIBIL Score</td><td>{{cibil_score}}</td></tr>
-    <tr><td>Default History</td><td>{{default_history}}</td></tr>
-    <tr><td>Banking Relationship</td><td>{{banking_years}} years with {{bank_name}}</td></tr>
+    <thead><tr><th style="width: 40%;">PARAMETER</th><th>DETAILS</th></tr></thead>
+    <tbody>
+        <tr><td>CIBIL Score</td><td>{{cibil_score}}</td></tr>
+        <tr><td>Default History</td><td>{{default_history}}</td></tr>
+        <tr><td>Banking Relationship</td><td>{{banking_years}} years with {{bank_name}}</td></tr>
+    </tbody>
 </table>
 
 <h3>Proposed Loan Details</h3>
@@ -422,6 +501,14 @@
         <div>{{declarant_name}}</div>
         <div>{{designation}}</div>
     </div>
+</div>
+
+<!-- FOOTER DECORATIVE LINE -->
+<div class="footer-line"></div>
+
+<!-- WATERMARK TEXT -->
+<div class="watermark">
+    VISION KARNATAKA FOUNDATION
 </div>
 
 </body>
