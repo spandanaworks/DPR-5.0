@@ -1,6 +1,5 @@
 services:
-  # ========== BACKEND - Node.js API for PDF Generation ==========
-  - type: web
+
     name: dpr-backend
     runtime: node
     plan: free
@@ -17,7 +16,7 @@ services:
       - key: SUPABASE_ANON_KEY
         sync: false
 
-  # ========== FRONTEND - Static HTML/CSS/JS ==========
+
   - type: static
     name: dpr-frontend
     rootDir: .
@@ -29,8 +28,4 @@ services:
         destination: https://dpr-backend.onrender.com/api/$1
     envVars:
       - key: BACKEND_URL
-<<<<<<< HEAD
         value: https://dpr-backend.onrender.com
-=======
-        value: https://dpr-backend.onrender.com
->>>>>>> 05c4c28e8ecf01b9365bda6b7f71eb30de17eca5
