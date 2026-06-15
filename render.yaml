@@ -1,5 +1,6 @@
 services:
-
+  # ========== BACKEND - Node.js API ==========
+  - type: web
     name: dpr-backend
     runtime: node
     plan: free
@@ -16,16 +17,11 @@ services:
       - key: SUPABASE_ANON_KEY
         sync: false
 
-
-  - type: static
+  # ========== FRONTEND - Static Site ==========
+  - type: web
     name: dpr-frontend
+    runtime: static
+    plan: free
     rootDir: .
     buildCommand: echo "No build step needed"
     publishPath: .
-    routes:
-      - type: rewrite
-        source: /api/(.*)
-        destination: https://dpr-backend.onrender.com/api/$1
-    envVars:
-      - key: BACKEND_URL
-        value: https://dpr-backend.onrender.com
