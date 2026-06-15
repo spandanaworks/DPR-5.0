@@ -28,7 +28,7 @@ if (!fs.existsSync(uploadsDir)) {
 // Update your CORS to be dynamic
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5500';
 app.use(cors({
-    origin: FRONTEND_URL,
+    origin: ['http://localhost:5500', 'https://dpr-5-0frontend.onrender.com'],
     credentials: true
 }));
 
