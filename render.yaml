@@ -29,4 +29,8 @@ services:
         destination: https://dpr-backend.onrender.com/api/$1
     envVars:
       - key: BACKEND_URL
+<<<<<<< HEAD
         value: https://dpr-backend.onrender.com
+=======
+        value: https://dpr-backend.onrender.com
+>>>>>>> 05c4c28e8ecf01b9365bda6b7f71eb30de17eca5
