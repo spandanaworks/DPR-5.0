@@ -854,6 +854,13 @@
 </div>
 
 <script>
+    // ========== DYNAMIC API URL - WORKS LOCALLY AND IN PRODUCTION ==========
+    const API_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:5000' 
+        : 'https://dpr-backend.onrender.com';
+    
+    console.log('API_URL:', API_URL);
+
     // ----------------- AUTH SYSTEM -----------------
     let usersDb = JSON.parse(localStorage.getItem('dpr_users_main')) || [];
     if (usersDb.length === 0) usersDb.push({ id: 1, name: "Demo User", email: "demo@example.com", password: "demo123" });
@@ -923,7 +930,7 @@
         activeSession = null;
         renderAuthUI();
     });
-
+    
     // ----------------- NAVIGATION (14 sections) -----------------
     let allSections = Array.from({ length: 14 }, (_, i) => document.getElementById(`sectionCard${i}`));
     let currentSectionIdx = 0;

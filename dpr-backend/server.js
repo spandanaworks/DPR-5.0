@@ -25,6 +25,16 @@ if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
+// Update your CORS to be dynamic
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5500';
+app.use(cors({
+    origin: FRONTEND_URL,
+    credentials: true
+}));
+
+// Also, update your image upload endpoint to use the Render URL
+const BASE_URL = process.env.RENDER_URL || `http://localhost:${PORT}`;
+
 // Configure multer for image uploads
 const imageStorage = multer.diskStorage({
     destination: (req, file, cb) => {
