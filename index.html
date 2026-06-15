@@ -530,7 +530,7 @@
       <!-- SECTION 02: MEMBERS -->
       <div id="sectionCard1" class="dpr-section-card" style="display:none;">
         <div class="section-title-main">👥 Members / Partners</div>
-        <div class="table-responsive"><table class="table-elegant"><thead><tr><th>#</th><th>Name</th><th>Designation</th><th>Gender</th><th>Age</th><th>Qualification</th><th>Experience</th><th>Mobile</th><th></th></tr></thead><tbody id="membersContainerTable"></tbody></table></div>
+        <div class="table-responsive"><table class="table-elegant"><thead><tr><th>#</th><th>Name</th><th>Designation</th><th>Gender</th><th>Age</th><th>Qualification</th><th>Experience</th><th></th></tr></thead><tbody id="membersContainerTable"></tbody></table></div>
         <button type="button" id="addMemberBtnDynamic" class="btn-outline-accent-add"><i class="fas fa-plus"></i> Add Member</button>
         <button type="button" class="btn-next-spacious nextSectionBtn mt-3">Next →</button>
       </div>
@@ -854,363 +854,631 @@
 </div>
 
 <script>
-  // ----------------- AUTH SYSTEM -----------------
-  let usersDb = JSON.parse(localStorage.getItem('dpr_users_main')) || [];
-  if(usersDb.length===0) usersDb.push({id:1,name:"Demo User",email:"demo@example.com",password:"demo123"});
-  let activeSession = JSON.parse(sessionStorage.getItem('dpr_current_user_main')) || null;
-  function renderAuthUI(){ if(activeSession){ document.getElementById('loginView').style.display='none'; document.getElementById('registerView').style.display='none'; document.getElementById('dashboardMainApp').style.display='block'; document.getElementById('sideUserName').innerText=activeSession.name; } else { document.getElementById('loginView').style.display='flex'; document.getElementById('registerView').style.display='none'; document.getElementById('dashboardMainApp').style.display='none'; } }
-  document.getElementById('loginFormHandler')?.addEventListener('submit',(e)=>{ e.preventDefault(); let u=usersDb.find(u=>u.email===document.getElementById('loginEmailField').value && u.password===document.getElementById('loginPasswordField').value); if(u){ activeSession={id:u.id,name:u.name,email:u.email}; sessionStorage.setItem('dpr_current_user_main',JSON.stringify(activeSession)); renderAuthUI(); } else { let errDiv=document.getElementById('loginErrorMsg'); errDiv.innerText="Invalid credentials (demo@example.com / demo123)"; errDiv.style.display='block'; setTimeout(()=>errDiv.style.display='none',2000); } });
-  document.getElementById('registerFormHandler')?.addEventListener('submit',(e)=>{ e.preventDefault(); let name=document.getElementById('regFullName').value,email=document.getElementById('regEmailAddr').value,pwd=document.getElementById('regPasswordInput').value,conf=document.getElementById('regConfirmInput').value; if(pwd!==conf){ alert("Passwords mismatch");return;} if(usersDb.find(u=>u.email===email)){ alert("Email exists");return;} usersDb.push({id:usersDb.length+1,name,email,password:pwd}); localStorage.setItem('dpr_users_main',JSON.stringify(usersDb)); alert("Registration success! Please login."); document.getElementById('loginView').style.display='flex'; document.getElementById('registerView').style.display='none'; });
-  document.getElementById('showRegisterBtn')?.addEventListener('click',()=>{ document.getElementById('loginView').style.display='none'; document.getElementById('registerView').style.display='flex'; });
-  document.getElementById('backToLoginBtn')?.addEventListener('click',()=>{ document.getElementById('registerView').style.display='none'; document.getElementById('loginView').style.display='flex'; });
-  document.getElementById('globalLogoutButton')?.addEventListener('click',()=>{ sessionStorage.removeItem('dpr_current_user_main'); activeSession=null; renderAuthUI(); });
-  
-  // ----------------- NAVIGATION (14 sections) -----------------
-  let allSections = Array.from({length:14},(_,i)=>document.getElementById(`sectionCard${i}`));
-  let currentSectionIdx = 0;
-  function setActiveSection(idx){ allSections.forEach((sec,i)=>{ if(sec) sec.style.display = i===idx ? 'block' : 'none'; }); let pct=((idx+1)/14)*100; let progressFill = document.getElementById('globalProgressFill'); if(progressFill) progressFill.style.width=`${pct}%`; let stepSpan = document.getElementById('stepCounterSpan'); if(stepSpan) stepSpan.innerText=`Step ${idx+1}/14`; document.querySelectorAll('.nav-link-side').forEach((el,i)=>{ if(i===idx) el.classList.add('active'); else el.classList.remove('active'); }); }
-  document.querySelectorAll('.nextSectionBtn').forEach(btn=>btn.addEventListener('click',()=>{ if(currentSectionIdx<13){ currentSectionIdx++; setActiveSection(currentSectionIdx); window.scrollTo(0,0); } }));
-  document.querySelectorAll('[data-sidx]').forEach(el=>{ el.addEventListener('click',()=>{ currentSectionIdx=parseInt(el.getAttribute('data-sidx')); setActiveSection(currentSectionIdx); }); });
-  setActiveSection(0);
-  
-  // ----------------- MEMBERS DYNAMIC -----------------
-  let memberId=1; const membersTbody=document.getElementById('membersContainerTable'); 
-  function addMemberRow(){ let tr=document.createElement('tr'); tr.innerHTML=`<td>${memberId}</td><td><input class="input-modern member-name"></td><td><input class="input-modern member-role"></td><td><input class="input-modern member-age"></td><td><input class="input-modern member-qual"></td><td><input class="input-modern member-exp"></td><td><input class="input-modern member-mobile"></td><td><button class="btn-outline-accent-add removeMem">Remove</button></td>`; membersTbody.appendChild(tr); tr.querySelector('.removeMem').onclick=()=>tr.remove(); memberId++; } 
-  document.getElementById('addMemberBtnDynamic')?.addEventListener('click',addMemberRow); addMemberRow();
-  
-  // ----------------- MACHINERY DYNAMIC -----------------
-  let machineryRows=[]; const machBody=document.getElementById('machineryTableDynamic'); 
-  function addMachineryLine(){ let idx=machineryRows.length+1; let row=document.createElement('tr'); row.innerHTML=`<td>${idx}</td><td><input class="input-modern mach-name"></td><td><input type="number" class="input-modern mach-qty" value="1"></td><td><input type="number" class="input-modern mach-price"></td><td><input class="input-modern mach-total" readonly></td><td><button class="btn-outline-accent-add removeMach">✖</button></td>`; machBody.appendChild(row); row.querySelector('.mach-qty').addEventListener('input',()=>updateMachTotal(row)); row.querySelector('.mach-price').addEventListener('input',()=>updateMachTotal(row)); row.querySelector('.removeMach').onclick=()=>{ row.remove(); updateMachinerySum(); }; updateMachTotal(row); } 
-  function updateMachTotal(row){ let qty=Number(row.querySelector('.mach-qty').value)||0; let price=Number(row.querySelector('.mach-price').value)||0; row.querySelector('.mach-total').value=qty*price; updateMachinerySum(); } 
-  function updateMachinerySum(){ let sum=0; document.querySelectorAll('.mach-total').forEach(inp=>sum+=Number(inp.value)||0); let machineryTotal = document.getElementById('machinery_total'); if(machineryTotal) machineryTotal.value=sum; calculateTotalCost(); } 
-  document.getElementById('addMachineryBtnForm')?.addEventListener('click',addMachineryLine); for(let i=0;i<2;i++) addMachineryLine();
-  
-  // ----------------- STAFF CALCULATIONS -----------------
-  function calcStaff(){ let mgmt=Number(document.getElementById('mgmt_count')?.value||0)*Number(document.getElementById('mgmt_salary')?.value||0); let sup=Number(document.getElementById('sup_count')?.value||0)*Number(document.getElementById('sup_salary')?.value||0); let skill=Number(document.getElementById('skill_count')?.value||0)*Number(document.getElementById('skill_salary')?.value||0); let unskill=Number(document.getElementById('unskill_count')?.value||0)*Number(document.getElementById('unskill_salary')?.value||0); let admin=Number(document.getElementById('admin_count')?.value||0)*Number(document.getElementById('admin_salary')?.value||0); let total=mgmt+sup+skill+unskill+admin; let staffCount=Number(document.getElementById('mgmt_count')?.value||0)+Number(document.getElementById('sup_count')?.value||0)+Number(document.getElementById('skill_count')?.value||0)+Number(document.getElementById('unskill_count')?.value||0)+Number(document.getElementById('admin_count')?.value||0); let mgmtCost = document.getElementById('mgmt_cost'); if(mgmtCost) mgmtCost.value=mgmt; let supCost = document.getElementById('sup_cost'); if(supCost) supCost.value=sup; let skillCost = document.getElementById('skill_cost'); if(skillCost) skillCost.value=skill; let unskillCost = document.getElementById('unskill_cost'); if(unskillCost) unskillCost.value=unskill; let adminCost = document.getElementById('admin_cost'); if(adminCost) adminCost.value=admin; let totalStaffDisplay = document.getElementById('total_staff_display'); if(totalStaffDisplay) totalStaffDisplay.innerText=staffCount; let totalSalaryDisplay = document.getElementById('total_salary_cost_display'); if(totalSalaryDisplay) totalSalaryDisplay.innerText=total.toLocaleString(); } 
-  document.querySelectorAll('#mgmt_count,#mgmt_salary,#sup_count,#sup_salary,#skill_count,#skill_salary,#unskill_count,#unskill_salary,#admin_count,#admin_salary').forEach(el=>el?.addEventListener('input',calcStaff)); calcStaff();
-  
-  // ----------------- REVENUE PROJECTIONS -----------------
-  function calcRevenueProj(){ let dailyCap=Number(document.querySelector('input[name="daily_capacity"]')?.value)||0; let price=Number(document.querySelector('input[name="selling_price"]')?.value)||0; let maxRev=dailyCap*price*300; for(let i=1;i<=5;i++){ let cap=Number(document.getElementById(`cap_year${i}`)?.value)||0; let rev=Math.round(maxRev*cap/100); let revElem = document.getElementById(`rev_year${i}`); if(revElem) revElem.value=rev; } for(let i=1;i<=5;i++){ let rev=Number(document.getElementById(`rev_year${i}`)?.value)||0; let exp=rev*0.7; let pbdit=rev-exp; let interest=Number(document.getElementById(`int_year${i}`)?.value)||0; let dep=Number(document.getElementById(`dep_year${i}`)?.value)||0; let pbt=pbdit-interest-dep; let tax=pbt>0?Math.round(pbt*0.25):0; let pat=pbt-tax; let expElem = document.getElementById(`exp_year${i}`); if(expElem) expElem.value=exp; let pbditElem = document.getElementById(`pbdit_year${i}`); if(pbditElem) pbditElem.value=pbdit; let pbtElem = document.getElementById(`pbt_year${i}`); if(pbtElem) pbtElem.value=pbt; let taxElem = document.getElementById(`tax_year${i}`); if(taxElem) taxElem.value=tax; let patElem = document.getElementById(`pat_year${i}`); if(patElem) patElem.value=pat; } } 
-  document.querySelector('input[name="daily_capacity"]')?.addEventListener('input',calcRevenueProj); document.querySelector('input[name="selling_price"]')?.addEventListener('input',calcRevenueProj); for(let i=1;i<=5;i++) document.getElementById(`cap_year${i}`)?.addEventListener('input',calcRevenueProj); calcRevenueProj();
-  
-  // ----------------- PROJECT COST CALCULATION -----------------
-  function calculateTotalCost(){ let land=Number(document.getElementById('land_cost')?.value)||0; let building=Number(document.getElementById('building_cost')?.value)||0; let machinery=Number(document.getElementById('machinery_total')?.value)||0; let furniture=Number(document.getElementById('furniture_cost')?.value)||0; let wc=Number(document.getElementById('working_capital')?.value)||0; let other=Number(document.getElementById('other_cost')?.value)||0; let total=land+building+machinery+furniture+wc+other; let totalCostElem = document.getElementById('total-cost'); if(totalCostElem) totalCostElem.value=total; let promoter=Number(document.getElementById('promoter_contribution')?.value)||0; let loan=Number(document.getElementById('bank_loan')?.value)||0; let subsidy=Number(document.getElementById('subsidy')?.value)||0; let funds=promoter+loan+subsidy; let totalFundsElem = document.getElementById('total-funds'); if(totalFundsElem) totalFundsElem.value=funds; if(total>0){ let promoterPercent = document.getElementById('promoter_percent'); if(promoterPercent) promoterPercent.value=Math.round((promoter/total)*100)+'%'; let loanPercent = document.getElementById('loan_percent'); if(loanPercent) loanPercent.value=Math.round((loan/total)*100)+'%'; let subsidyPercent = document.getElementById('subsidy_percent'); if(subsidyPercent) subsidyPercent.value=Math.round((subsidy/total)*100)+'%'; } } 
-  document.querySelectorAll('.project-cost').forEach(el=>el?.addEventListener('input',calculateTotalCost)); calculateTotalCost();
-  
-  // ----------------- BALANCE SHEET CALCULATIONS -----------------
-  function calculateBalanceSheet() {
-      const cashInHand = Number(document.getElementById('cash_in_hand')?.value) || 0;
-      const bankBalance = Number(document.getElementById('bank_balance')?.value) || 0;
-      const inventory = Number(document.getElementById('inventory_value')?.value) || 0;
-      const receivables = Number(document.getElementById('receivables')?.value) || 0;
-      const totalCurrentAssets = cashInHand + bankBalance + inventory + receivables;
-      const fixedLand = Number(document.getElementById('fixed_land')?.value) || 0;
-      const fixedBuilding = Number(document.getElementById('fixed_building')?.value) || 0;
-      const fixedMachinery = Number(document.getElementById('fixed_machinery')?.value) || 0;
-      const fixedFurniture = Number(document.getElementById('fixed_furniture')?.value) || 0;
-      const totalFixedAssets = fixedLand + fixedBuilding + fixedMachinery + fixedFurniture;
-      const totalAssets = totalCurrentAssets + totalFixedAssets;
-      const shortTermLoan = Number(document.getElementById('short_term_loan')?.value) || 0;
-      const creditors = Number(document.getElementById('creditors')?.value) || 0;
-      const longTermLoan = Number(document.getElementById('long_term_loan')?.value) || 0;
-      const totalCurrentLiabilities = shortTermLoan + creditors;
-      const totalLiabilities = totalCurrentLiabilities + longTermLoan;
-      const ownerCapital = Number(document.getElementById('owner_capital')?.value) || 0;
-      const retainedEarnings = Number(document.getElementById('retained_earnings')?.value) || 0;
-      const totalEquity = ownerCapital + retainedEarnings;
-      const liabilitiesPlusEquity = totalLiabilities + totalEquity;
-      const isBalanced = Math.abs(totalAssets - liabilitiesPlusEquity) < 1;
-      const currentRatio = totalCurrentLiabilities > 0 ? (totalCurrentAssets / totalCurrentLiabilities).toFixed(2) : '∞';
-      const debtEquityRatio = totalEquity > 0 ? (totalLiabilities / totalEquity).toFixed(2) : '∞';
-      const workingCapital = totalCurrentAssets - totalCurrentLiabilities;
-      const totalCurrentAssetsElem = document.getElementById('total_current_assets');
-      const totalFixedAssetsElem = document.getElementById('total_fixed_assets');
-      const totalAssetsElem = document.getElementById('total_assets_bs');
-      const totalCurrentLiabilitiesElem = document.getElementById('total_current_liabilities');
-      const totalLongTermLiabilitiesElem = document.getElementById('total_long_term_liabilities');
-      const totalLiabilitiesElem = document.getElementById('total_liabilities_bs');
-      const totalEquityElem = document.getElementById('total_equity_bs');
-      const liabilitiesPlusEquityElem = document.getElementById('liabilities_plus_equity');
-      const currentRatioElem = document.getElementById('current_ratio_display');
-      const debtEquityRatioElem = document.getElementById('debt_equity_ratio_display');
-      const workingCapitalElem = document.getElementById('working_capital_display');
-      const balanceStatusElem = document.getElementById('balance_check_status');
-      if(totalCurrentAssetsElem) totalCurrentAssetsElem.value = totalCurrentAssets.toLocaleString();
-      if(totalFixedAssetsElem) totalFixedAssetsElem.value = totalFixedAssets.toLocaleString();
-      if(totalAssetsElem) totalAssetsElem.value = totalAssets.toLocaleString();
-      if(totalCurrentLiabilitiesElem) totalCurrentLiabilitiesElem.value = totalCurrentLiabilities.toLocaleString();
-      if(totalLongTermLiabilitiesElem) totalLongTermLiabilitiesElem.value = longTermLoan.toLocaleString();
-      if(totalLiabilitiesElem) totalLiabilitiesElem.value = totalLiabilities.toLocaleString();
-      if(totalEquityElem) totalEquityElem.value = totalEquity.toLocaleString();
-      if(liabilitiesPlusEquityElem) liabilitiesPlusEquityElem.value = liabilitiesPlusEquity.toLocaleString();
-      if(currentRatioElem) currentRatioElem.value = currentRatio;
-      if(debtEquityRatioElem) debtEquityRatioElem.value = debtEquityRatio;
-      if(workingCapitalElem) workingCapitalElem.value = `₹ ${workingCapital.toLocaleString()}`;
-      if(balanceStatusElem) {
-          if(totalAssets === 0 && liabilitiesPlusEquity === 0) {
-              balanceStatusElem.innerHTML = '⚠️ Enter values to verify balance sheet';
-              balanceStatusElem.style.background = '#fef3c7';
-              balanceStatusElem.style.color = '#92400e';
-          } else if(isBalanced) {
-              balanceStatusElem.innerHTML = '✅ BALANCE SHEET IS BALANCED ✓';
-              balanceStatusElem.style.background = '#d1fae5';
-              balanceStatusElem.style.color = '#065f46';
-          } else {
-              balanceStatusElem.innerHTML = `❌ BALANCE SHEET NOT BALANCED! Difference: ₹ ${Math.abs(totalAssets - liabilitiesPlusEquity).toLocaleString()}`;
-              balanceStatusElem.style.background = '#fee2e2';
-              balanceStatusElem.style.color = '#991b1b';
-          }
-      }
-  }
-  
-  function attachBalanceSheetEvents() {
-      const balanceInputs = ['cash_in_hand','bank_balance','inventory_value','receivables','fixed_land','fixed_building','fixed_machinery','fixed_furniture','short_term_loan','creditors','long_term_loan','owner_capital','retained_earnings'];
-      balanceInputs.forEach(id => { const element = document.getElementById(id); if(element) element.addEventListener('input', calculateBalanceSheet); });
-  }
-  
-  // ========== COLLECT FORM DATA ==========
-  function collectAllFormData() {
-      const data = {};
-      data.business_name = document.querySelector('input[name="business_name"]')?.value || '';
-      data.business_desc = document.querySelector('textarea[name="business_desc"]')?.value || '';
-      data.entity_type = document.querySelector('select[name="entity_type"]')?.value || '';
-      data.cin = document.querySelector('input[name="cin"]')?.value || '';
-      data.gst_no = document.querySelector('input[name="gst_no"]')?.value || '';
-      data.pan_no = document.querySelector('input[name="pan_no"]')?.value || '';
-      data.village = document.querySelector('input[name="village"]')?.value || '';
-      data.district = document.querySelector('input[name="district"]')?.value || '';
-      data.state = document.querySelector('input[name="state"]')?.value || '';
-      data.contact_name = document.querySelector('input[name="contact_name"]')?.value || '';
-      data.contact_number = document.querySelector('input[name="contact_number"]')?.value || '';
-      data.email = document.querySelector('input[name="email"]')?.value || '';
-      data.primary_product = document.querySelector('textarea[name="primary_product"]')?.value || '';
-      data.daily_capacity = document.querySelector('input[name="daily_capacity"]')?.value || 0;
-      data.capacity_unit = document.querySelector('select[name="capacity_unit"]')?.value || '';
-      data.selling_price = document.querySelector('input[name="selling_price"]')?.value || 0;
-      data.usp = document.querySelector('textarea[name="usp"]')?.value || '';
-      data.target_customers = document.querySelector('textarea[name="target_customers"]')?.value || '';
-      data.competitors = document.querySelector('textarea[name="competitors"]')?.value || '';
-      data.strengths = document.querySelector('textarea[name="strengths"]')?.value || '';
-      data.weaknesses = document.querySelector('textarea[name="weaknesses"]')?.value || '';
-      data.opportunities = document.querySelector('textarea[name="opportunities"]')?.value || '';
-      data.threats = document.querySelector('textarea[name="threats"]')?.value || '';
-      data.local_employment = document.querySelector('input[name="local_employment"]')?.value || 0;
-      data.women_employment = document.querySelector('input[name="women_employment"]')?.value || 0;
-      data.youth_employment = document.querySelector('input[name="youth_employment"]')?.value || 0;
-      data.eco_friendly = document.querySelector('input[name="eco_friendly"]')?.value || '';
-      data.cibil_score = document.querySelector('input[name="cibil_score"]')?.value || 0;
-      data.declarant_name = document.querySelector('input[name="declarant_name"]')?.value || '';
-      data.designation = document.querySelector('input[name="designation"]')?.value || '';
-      data.place = document.querySelector('input[name="place"]')?.value || '';
-      data.declaration_date = document.querySelector('input[name="declaration_date"]')?.value || new Date().toISOString().split('T')[0];
-      data.land_cost = document.getElementById('land_cost')?.value || 0;
-      data.building_cost = document.getElementById('building_cost')?.value || 0;
-      data.machinery_total = document.getElementById('machinery_total')?.value || 0;
-      data.furniture_cost = document.getElementById('furniture_cost')?.value || 0;
-      data.working_capital = document.getElementById('working_capital')?.value || 0;
-      data.other_cost = document.getElementById('other_cost')?.value || 0;
-      data.promoter_contribution = document.getElementById('promoter_contribution')?.value || 0;
-      data.bank_loan = document.getElementById('bank_loan')?.value || 0;
-      data.subsidy = document.getElementById('subsidy')?.value || 0;
-      for(let i=1;i<=5;i++) { data[`cap_year${i}`] = document.getElementById(`cap_year${i}`)?.value || 0; }
-      data.mgmt_count = document.getElementById('mgmt_count')?.value || 0;
-      data.mgmt_salary = document.getElementById('mgmt_salary')?.value || 0;
-      data.sup_count = document.getElementById('sup_count')?.value || 0;
-      data.sup_salary = document.getElementById('sup_salary')?.value || 0;
-      data.skill_count = document.getElementById('skill_count')?.value || 0;
-      data.skill_salary = document.getElementById('skill_salary')?.value || 0;
-      data.unskill_count = document.getElementById('unskill_count')?.value || 0;
-      data.unskill_salary = document.getElementById('unskill_salary')?.value || 0;
-      data.admin_count = document.getElementById('admin_count')?.value || 0;
-      data.admin_salary = document.getElementById('admin_salary')?.value || 0;
-      data.cash_in_hand = document.getElementById('cash_in_hand')?.value || 0;
-      data.bank_balance = document.getElementById('bank_balance')?.value || 0;
-      data.inventory_value = document.getElementById('inventory_value')?.value || 0;
-      data.receivables = document.getElementById('receivables')?.value || 0;
-      data.short_term_loan = document.getElementById('short_term_loan')?.value || 0;
-      data.creditors = document.getElementById('creditors')?.value || 0;
-      data.long_term_loan = document.getElementById('long_term_loan')?.value || 0;
-      data.owner_capital = document.getElementById('owner_capital')?.value || 0;
-      data.retained_earnings = document.getElementById('retained_earnings')?.value || 0;
-      const uploadedImages = JSON.parse(localStorage.getItem('uploaded_images') || '{}');
-      data.uploaded_images = uploadedImages;
-      return data;
-  }
-  
-  function previewImage(input, previewId) {
-    const file = input.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const previewDiv = document.getElementById(previewId);
-        if (previewDiv) {
-                previewDiv.innerHTML = `<img src="${e.target.result}" style="max-width:120px;max-height:80px;border-radius:8px;border:2px solid white;object-fit:cover;">`;
-            }
+    // ----------------- AUTH SYSTEM -----------------
+    let usersDb = JSON.parse(localStorage.getItem('dpr_users_main')) || [];
+    if (usersDb.length === 0) usersDb.push({ id: 1, name: "Demo User", email: "demo@example.com", password: "demo123" });
+    let activeSession = JSON.parse(sessionStorage.getItem('dpr_current_user_main')) || null;
+
+    function renderAuthUI() {
+        if (activeSession) {
+            document.getElementById('loginView').style.display = 'none';
+            document.getElementById('registerView').style.display = 'none';
+            document.getElementById('dashboardMainApp').style.display = 'block';
+            document.getElementById('sideUserName').innerText = activeSession.name;
+        } else {
+            document.getElementById('loginView').style.display = 'flex';
+            document.getElementById('registerView').style.display = 'none';
+            document.getElementById('dashboardMainApp').style.display = 'none';
+        }
+    }
+
+    document.getElementById('loginFormHandler')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let u = usersDb.find(u => u.email === document.getElementById('loginEmailField').value && u.password === document.getElementById('loginPasswordField').value);
+        if (u) {
+            activeSession = { id: u.id, name: u.name, email: u.email };
+            sessionStorage.setItem('dpr_current_user_main', JSON.stringify(activeSession));
+            renderAuthUI();
+        } else {
+            let errDiv = document.getElementById('loginErrorMsg');
+            errDiv.innerText = "Invalid credentials (demo@example.com / demo123)";
+            errDiv.style.display = 'block';
+            setTimeout(() => errDiv.style.display = 'none', 2000);
+        }
+    });
+
+    document.getElementById('registerFormHandler')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let name = document.getElementById('regFullName').value,
+            email = document.getElementById('regEmailAddr').value,
+            pwd = document.getElementById('regPasswordInput').value,
+            conf = document.getElementById('regConfirmInput').value;
+        if (pwd !== conf) {
+            alert("Passwords mismatch");
+            return;
+        }
+        if (usersDb.find(u => u.email === email)) {
+            alert("Email exists");
+            return;
+        }
+        usersDb.push({ id: usersDb.length + 1, name, email, password: pwd });
+        localStorage.setItem('dpr_users_main', JSON.stringify(usersDb));
+        alert("Registration success! Please login.");
+        document.getElementById('loginView').style.display = 'flex';
+        document.getElementById('registerView').style.display = 'none';
+    });
+
+    document.getElementById('showRegisterBtn')?.addEventListener('click', () => {
+        document.getElementById('loginView').style.display = 'none';
+        document.getElementById('registerView').style.display = 'flex';
+    });
+
+    document.getElementById('backToLoginBtn')?.addEventListener('click', () => {
+        document.getElementById('registerView').style.display = 'none';
+        document.getElementById('loginView').style.display = 'flex';
+    });
+
+    document.getElementById('globalLogoutButton')?.addEventListener('click', () => {
+        sessionStorage.removeItem('dpr_current_user_main');
+        activeSession = null;
+        renderAuthUI();
+    });
+
+    // ----------------- NAVIGATION (14 sections) -----------------
+    let allSections = Array.from({ length: 14 }, (_, i) => document.getElementById(`sectionCard${i}`));
+    let currentSectionIdx = 0;
+
+    function setActiveSection(idx) {
+        allSections.forEach((sec, i) => {
+            if (sec) sec.style.display = i === idx ? 'block' : 'none';
+        });
+        let pct = ((idx + 1) / 14) * 100;
+        let progressFill = document.getElementById('globalProgressFill');
+        if (progressFill) progressFill.style.width = `${pct}%`;
+        let stepSpan = document.getElementById('stepCounterSpan');
+        if (stepSpan) stepSpan.innerText = `Step ${idx + 1}/14`;
+        document.querySelectorAll('.nav-link-side').forEach((el, i) => {
+            if (i === idx) el.classList.add('active');
+            else el.classList.remove('active');
+        });
+    }
+
+    document.querySelectorAll('.nextSectionBtn').forEach(btn => btn.addEventListener('click', () => {
+        if (currentSectionIdx < 13) {
+            currentSectionIdx++;
+            setActiveSection(currentSectionIdx);
+            window.scrollTo(0, 0);
+        }
+    }));
+
+    document.querySelectorAll('[data-sidx]').forEach(el => {
+        el.addEventListener('click', () => {
+            currentSectionIdx = parseInt(el.getAttribute('data-sidx'));
+            setActiveSection(currentSectionIdx);
+        });
+    });
+    setActiveSection(0);
+
+    // ----------------- MEMBERS DYNAMIC -----------------
+    let memberId = 1;
+    const membersTbody = document.getElementById('membersContainerTable');
+
+    function addMemberRow() {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${memberId}</td>
+            <td><input class="input-modern member-name"></td>
+            <td><input class="input-modern member-role"></td>
+            <td><input class="input-modern member-age"></td>
+            <td><input class="input-modern member-qual"></td>
+            <td><input class="input-modern member-exp"></td>
+            <td><input class="input-modern member-mobile"></td>
+            <td><button class="btn-outline-accent-add removeMem">Remove</button></td>
+        `;
+        membersTbody.appendChild(tr);
+        tr.querySelector('.removeMem').onclick = () => tr.remove();
+        memberId++;
+    }
+
+    document.getElementById('addMemberBtnDynamic')?.addEventListener('click', addMemberRow);
+    addMemberRow();
+
+    // ----------------- MACHINERY DYNAMIC -----------------
+    let machineryRows = [];
+    const machBody = document.getElementById('machineryTableDynamic');
+
+    function addMachineryLine() {
+        let idx = machineryRows.length + 1;
+        let row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${idx}</td>
+            <td><input class="input-modern mach-name"></td>
+            <td><input type="number" class="input-modern mach-qty" value="1"></td>
+            <td><input type="number" class="input-modern mach-price"></td>
+            <td><input class="input-modern mach-total" readonly></td>
+            <td><button class="btn-outline-accent-add removeMach">✖</button></td>
+        `;
+        machBody.appendChild(row);
+        row.querySelector('.mach-qty').addEventListener('input', () => updateMachTotal(row));
+        row.querySelector('.mach-price').addEventListener('input', () => updateMachTotal(row));
+        row.querySelector('.removeMach').onclick = () => {
+            row.remove();
+            updateMachinerySum();
         };
-        reader.readAsDataURL(file);
+        updateMachTotal(row);
     }
-}
 
-// Attach preview events
-document.getElementById('logoUpload')?.addEventListener('change', function(e) { previewImage(this, 'logoPreview'); });
-document.getElementById('productUpload')?.addEventListener('change', function(e) { previewImage(this, 'productPreview'); });
-document.getElementById('facilityUpload')?.addEventListener('change', function(e) { previewImage(this, 'facilityPreview'); });
-document.getElementById('teamUpload')?.addEventListener('change', function(e) { previewImage(this, 'teamPreview'); });
+    function updateMachTotal(row) {
+        let qty = Number(row.querySelector('.mach-qty').value) || 0;
+        let price = Number(row.querySelector('.mach-price').value) || 0;
+        row.querySelector('.mach-total').value = qty * price;
+        updateMachinerySum();
+    }
 
-// ========== IMAGE UPLOAD BUTTON HANDLER ==========
-document.getElementById('uploadImagesBtn')?.addEventListener('click', async function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const btn = this;
-    const statusDiv = document.getElementById('imageUploadStatus');
-    
-    const logoFile = document.getElementById('logoUpload')?.files[0];
-    const productFile = document.getElementById('productUpload')?.files[0];
-    const facilityFile = document.getElementById('facilityUpload')?.files[0];
-    const teamFile = document.getElementById('teamUpload')?.files[0];
-    
-    if (!logoFile && !productFile && !facilityFile && !teamFile) {
-        alert('Please select at least one image');
-        return;
+    function updateMachinerySum() {
+        let sum = 0;
+        document.querySelectorAll('.mach-total').forEach(inp => sum += Number(inp.value) || 0);
+        let machineryTotal = document.getElementById('machinery_total');
+        if (machineryTotal) machineryTotal.value = sum;
+        calculateTotalCost();
     }
-    
-    btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Uploading...';
-    btn.disabled = true;
-    
-    if (statusDiv) {
-        statusDiv.style.display = 'block';
-        statusDiv.innerHTML = '📤 Uploading images...';
-    }
-    
-    const uploadedUrls = {};
-    
-    // Upload logo
-    if (logoFile) {
-        const formData = new FormData();
-        formData.append('image', logoFile);
-        formData.append('type', 'logo');
-        try {
-            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) uploadedUrls.logo = result.url;
-        } catch(e) { console.error('Logo upload error:', e); }
-    }
-    
-    // Upload product image
-    if (productFile) {
-        const formData = new FormData();
-        formData.append('image', productFile);
-        formData.append('type', 'product');
-        try {
-            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) uploadedUrls.product = result.url;
-        } catch(e) { console.error('Product upload error:', e); }
-    }
-    
-    // Upload facility image
-    if (facilityFile) {
-        const formData = new FormData();
-        formData.append('image', facilityFile);
-        formData.append('type', 'facility');
-        try {
-            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) uploadedUrls.facility = result.url;
-        } catch(e) { console.error('Facility upload error:', e); }
-    }
-    
-    // Upload team image
-    if (teamFile) {
-        const formData = new FormData();
-        formData.append('image', teamFile);
-        formData.append('type', 'team');
-        try {
-            const response = await fetch('http://localhost:5000/api/dpr/upload-image', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) uploadedUrls.team = result.url;
-        } catch(e) { console.error('Team upload error:', e); }
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('uploaded_images', JSON.stringify(uploadedUrls));
-    
-    if (statusDiv) {
-        const count = Object.keys(uploadedUrls).length;
-        statusDiv.innerHTML = `✅ ${count} image(s) uploaded successfully!`;
-        statusDiv.style.color = '#d1fae5';
-        setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
-    }
-    
-    btn.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
-    setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload All Images';
-        btn.disabled = false;
-    }, 2000);
-    
-    console.log('Uploaded URLs:', uploadedUrls);
-});
 
-  // Report Generation Button Handler (with Auto-Save to Supabase)
-  document.getElementById('generateReportBtn')?.addEventListener('click', async function() {
-      const btn = this;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Generating Report & Saving to Cloud...';
-      btn.disabled = true;
-      
-      try {
-          const reportData = collectAllFormData();
-          
-          // STEP 1: Save to Supabase
-          console.log('💾 Saving to Supabase...');
-          const saveResponse = await fetch('http://localhost:5000/api/dpr/save-report', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ reportData: reportData })
-          });
-          
-          const saveResult = await saveResponse.json();
-          if (saveResult.success) {
-              console.log('✅ Saved to cloud!');
-          } else {
-              console.warn('Save warning:', saveResult);
-          }
-          
-          // STEP 2: Generate PDF
-          const response = await fetch('http://localhost:5000/api/dpr/generate-full-report', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(reportData)
-          });
-          
-          if(response.ok) {
-              const blob = await response.blob();
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = `DPR_${reportData.business_name || 'Report'}_${Date.now()}.pdf`;
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              window.URL.revokeObjectURL(url);
-          } else {
-              const error = await response.json();
-              alert('Error: ' + (error.error || 'Unknown error'));
-          }
-      } catch(error) {
-          console.error('Report generation error:', error);
-          alert('Backend not running. Start server on port 5000');
-      } finally {
-          btn.innerHTML = originalText;
-          btn.disabled = false;
-      }
-  });
+    document.getElementById('addMachineryBtnForm')?.addEventListener('click', addMachineryLine);
+    for (let i = 0; i < 2; i++) addMachineryLine();
 
-  // Initialize
-  attachBalanceSheetEvents();
-  calculateBalanceSheet();
-  renderAuthUI();
+    // ----------------- STAFF CALCULATIONS -----------------
+    function calcStaff() {
+        let mgmt = Number(document.getElementById('mgmt_count')?.value || 0) * Number(document.getElementById('mgmt_salary')?.value || 0);
+        let sup = Number(document.getElementById('sup_count')?.value || 0) * Number(document.getElementById('sup_salary')?.value || 0);
+        let skill = Number(document.getElementById('skill_count')?.value || 0) * Number(document.getElementById('skill_salary')?.value || 0);
+        let unskill = Number(document.getElementById('unskill_count')?.value || 0) * Number(document.getElementById('unskill_salary')?.value || 0);
+        let admin = Number(document.getElementById('admin_count')?.value || 0) * Number(document.getElementById('admin_salary')?.value || 0);
+        let total = mgmt + sup + skill + unskill + admin;
+        let staffCount = Number(document.getElementById('mgmt_count')?.value || 0) + Number(document.getElementById('sup_count')?.value || 0) + Number(document.getElementById('skill_count')?.value || 0) + Number(document.getElementById('unskill_count')?.value || 0) + Number(document.getElementById('admin_count')?.value || 0);
+        let mgmtCost = document.getElementById('mgmt_cost');
+        if (mgmtCost) mgmtCost.value = mgmt;
+        let supCost = document.getElementById('sup_cost');
+        if (supCost) supCost.value = sup;
+        let skillCost = document.getElementById('skill_cost');
+        if (skillCost) skillCost.value = skill;
+        let unskillCost = document.getElementById('unskill_cost');
+        if (unskillCost) unskillCost.value = unskill;
+        let adminCost = document.getElementById('admin_cost');
+        if (adminCost) adminCost.value = admin;
+        let totalStaffDisplay = document.getElementById('total_staff_display');
+        if (totalStaffDisplay) totalStaffDisplay.innerText = staffCount;
+        let totalSalaryDisplay = document.getElementById('total_salary_cost_display');
+        if (totalSalaryDisplay) totalSalaryDisplay.innerText = total.toLocaleString();
+    }
+
+    document.querySelectorAll('#mgmt_count,#mgmt_salary,#sup_count,#sup_salary,#skill_count,#skill_salary,#unskill_count,#unskill_salary,#admin_count,#admin_salary').forEach(el => el?.addEventListener('input', calcStaff));
+    calcStaff();
+
+    // ----------------- REVENUE PROJECTIONS -----------------
+    function calcRevenueProj() {
+        let dailyCap = Number(document.querySelector('input[name="daily_capacity"]')?.value) || 0;
+        let price = Number(document.querySelector('input[name="selling_price"]')?.value) || 0;
+        let maxRev = dailyCap * price * 300;
+        for (let i = 1; i <= 5; i++) {
+            let cap = Number(document.getElementById(`cap_year${i}`)?.value) || 0;
+            let rev = Math.round(maxRev * cap / 100);
+            let revElem = document.getElementById(`rev_year${i}`);
+            if (revElem) revElem.value = rev;
+        }
+        for (let i = 1; i <= 5; i++) {
+            let rev = Number(document.getElementById(`rev_year${i}`)?.value) || 0;
+            let exp = rev * 0.7;
+            let pbdit = rev - exp;
+            let interest = Number(document.getElementById(`int_year${i}`)?.value) || 0;
+            let dep = Number(document.getElementById(`dep_year${i}`)?.value) || 0;
+            let pbt = pbdit - interest - dep;
+            let tax = pbt > 0 ? Math.round(pbt * 0.25) : 0;
+            let pat = pbt - tax;
+            let expElem = document.getElementById(`exp_year${i}`);
+            if (expElem) expElem.value = exp;
+            let pbditElem = document.getElementById(`pbdit_year${i}`);
+            if (pbditElem) pbditElem.value = pbdit;
+            let pbtElem = document.getElementById(`pbt_year${i}`);
+            if (pbtElem) pbtElem.value = pbt;
+            let taxElem = document.getElementById(`tax_year${i}`);
+            if (taxElem) taxElem.value = tax;
+            let patElem = document.getElementById(`pat_year${i}`);
+            if (patElem) patElem.value = pat;
+        }
+    }
+
+    document.querySelector('input[name="daily_capacity"]')?.addEventListener('input', calcRevenueProj);
+    document.querySelector('input[name="selling_price"]')?.addEventListener('input', calcRevenueProj);
+    for (let i = 1; i <= 5; i++) document.getElementById(`cap_year${i}`)?.addEventListener('input', calcRevenueProj);
+    calcRevenueProj();
+
+    // ----------------- PROJECT COST CALCULATION -----------------
+    function calculateTotalCost() {
+        let land = Number(document.getElementById('land_cost')?.value) || 0;
+        let building = Number(document.getElementById('building_cost')?.value) || 0;
+        let machinery = Number(document.getElementById('machinery_total')?.value) || 0;
+        let furniture = Number(document.getElementById('furniture_cost')?.value) || 0;
+        let wc = Number(document.getElementById('working_capital')?.value) || 0;
+        let other = Number(document.getElementById('other_cost')?.value) || 0;
+        let total = land + building + machinery + furniture + wc + other;
+        let totalCostElem = document.getElementById('total-cost');
+        if (totalCostElem) totalCostElem.value = total;
+        let promoter = Number(document.getElementById('promoter_contribution')?.value) || 0;
+        let loan = Number(document.getElementById('bank_loan')?.value) || 0;
+        let subsidy = Number(document.getElementById('subsidy')?.value) || 0;
+        let funds = promoter + loan + subsidy;
+        let totalFundsElem = document.getElementById('total-funds');
+        if (totalFundsElem) totalFundsElem.value = funds;
+        if (total > 0) {
+            let promoterPercent = document.getElementById('promoter_percent');
+            if (promoterPercent) promoterPercent.value = Math.round((promoter / total) * 100) + '%';
+            let loanPercent = document.getElementById('loan_percent');
+            if (loanPercent) loanPercent.value = Math.round((loan / total) * 100) + '%';
+            let subsidyPercent = document.getElementById('subsidy_percent');
+            if (subsidyPercent) subsidyPercent.value = Math.round((subsidy / total) * 100) + '%';
+        }
+    }
+
+    document.querySelectorAll('.project-cost').forEach(el => el?.addEventListener('input', calculateTotalCost));
+    calculateTotalCost();
+
+    // ----------------- BALANCE SHEET CALCULATIONS -----------------
+    function calculateBalanceSheet() {
+        const cashInHand = Number(document.getElementById('cash_in_hand')?.value) || 0;
+        const bankBalance = Number(document.getElementById('bank_balance')?.value) || 0;
+        const inventory = Number(document.getElementById('inventory_value')?.value) || 0;
+        const receivables = Number(document.getElementById('receivables')?.value) || 0;
+        const totalCurrentAssets = cashInHand + bankBalance + inventory + receivables;
+        const fixedLand = Number(document.getElementById('fixed_land')?.value) || 0;
+        const fixedBuilding = Number(document.getElementById('fixed_building')?.value) || 0;
+        const fixedMachinery = Number(document.getElementById('fixed_machinery')?.value) || 0;
+        const fixedFurniture = Number(document.getElementById('fixed_furniture')?.value) || 0;
+        const totalFixedAssets = fixedLand + fixedBuilding + fixedMachinery + fixedFurniture;
+        const totalAssets = totalCurrentAssets + totalFixedAssets;
+        const shortTermLoan = Number(document.getElementById('short_term_loan')?.value) || 0;
+        const creditors = Number(document.getElementById('creditors')?.value) || 0;
+        const longTermLoan = Number(document.getElementById('long_term_loan')?.value) || 0;
+        const totalCurrentLiabilities = shortTermLoan + creditors;
+        const totalLiabilities = totalCurrentLiabilities + longTermLoan;
+        const ownerCapital = Number(document.getElementById('owner_capital')?.value) || 0;
+        const retainedEarnings = Number(document.getElementById('retained_earnings')?.value) || 0;
+        const totalEquity = ownerCapital + retainedEarnings;
+        const liabilitiesPlusEquity = totalLiabilities + totalEquity;
+        const isBalanced = Math.abs(totalAssets - liabilitiesPlusEquity) < 1;
+        const currentRatio = totalCurrentLiabilities > 0 ? (totalCurrentAssets / totalCurrentLiabilities).toFixed(2) : '∞';
+        const debtEquityRatio = totalEquity > 0 ? (totalLiabilities / totalEquity).toFixed(2) : '∞';
+        const workingCapital = totalCurrentAssets - totalCurrentLiabilities;
+        const totalCurrentAssetsElem = document.getElementById('total_current_assets');
+        const totalFixedAssetsElem = document.getElementById('total_fixed_assets');
+        const totalAssetsElem = document.getElementById('total_assets_bs');
+        const totalCurrentLiabilitiesElem = document.getElementById('total_current_liabilities');
+        const totalLongTermLiabilitiesElem = document.getElementById('total_long_term_liabilities');
+        const totalLiabilitiesElem = document.getElementById('total_liabilities_bs');
+        const totalEquityElem = document.getElementById('total_equity_bs');
+        const liabilitiesPlusEquityElem = document.getElementById('liabilities_plus_equity');
+        const currentRatioElem = document.getElementById('current_ratio_display');
+        const debtEquityRatioElem = document.getElementById('debt_equity_ratio_display');
+        const workingCapitalElem = document.getElementById('working_capital_display');
+        const balanceStatusElem = document.getElementById('balance_check_status');
+
+        if (totalCurrentAssetsElem) totalCurrentAssetsElem.value = totalCurrentAssets.toLocaleString();
+        if (totalFixedAssetsElem) totalFixedAssetsElem.value = totalFixedAssets.toLocaleString();
+        if (totalAssetsElem) totalAssetsElem.value = totalAssets.toLocaleString();
+        if (totalCurrentLiabilitiesElem) totalCurrentLiabilitiesElem.value = totalCurrentLiabilities.toLocaleString();
+        if (totalLongTermLiabilitiesElem) totalLongTermLiabilitiesElem.value = longTermLoan.toLocaleString();
+        if (totalLiabilitiesElem) totalLiabilitiesElem.value = totalLiabilities.toLocaleString();
+        if (totalEquityElem) totalEquityElem.value = totalEquity.toLocaleString();
+        if (liabilitiesPlusEquityElem) liabilitiesPlusEquityElem.value = liabilitiesPlusEquity.toLocaleString();
+        if (currentRatioElem) currentRatioElem.value = currentRatio;
+        if (debtEquityRatioElem) debtEquityRatioElem.value = debtEquityRatio;
+        if (workingCapitalElem) workingCapitalElem.value = `₹ ${workingCapital.toLocaleString()}`;
+        if (balanceStatusElem) {
+            if (totalAssets === 0 && liabilitiesPlusEquity === 0) {
+                balanceStatusElem.innerHTML = '⚠️ Enter values to verify balance sheet';
+                balanceStatusElem.style.background = '#fef3c7';
+                balanceStatusElem.style.color = '#92400e';
+            } else if (isBalanced) {
+                balanceStatusElem.innerHTML = '✅ BALANCE SHEET IS BALANCED ✓';
+                balanceStatusElem.style.background = '#d1fae5';
+                balanceStatusElem.style.color = '#065f46';
+            } else {
+                balanceStatusElem.innerHTML = `❌ BALANCE SHEET NOT BALANCED! Difference: ₹ ${Math.abs(totalAssets - liabilitiesPlusEquity).toLocaleString()}`;
+                balanceStatusElem.style.background = '#fee2e2';
+                balanceStatusElem.style.color = '#991b1b';
+            }
+        }
+    }
+
+    function attachBalanceSheetEvents() {
+        const balanceInputs = ['cash_in_hand', 'bank_balance', 'inventory_value', 'receivables', 'fixed_land', 'fixed_building', 'fixed_machinery', 'fixed_furniture', 'short_term_loan', 'creditors', 'long_term_loan', 'owner_capital', 'retained_earnings'];
+        balanceInputs.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.addEventListener('input', calculateBalanceSheet);
+        });
+    }
+
+    // ========== COLLECT FORM DATA ==========
+    function collectAllFormData() {
+        const data = {};
+        data.business_name = document.querySelector('input[name="business_name"]')?.value || '';
+        data.business_desc = document.querySelector('textarea[name="business_desc"]')?.value || '';
+        data.entity_type = document.querySelector('select[name="entity_type"]')?.value || '';
+        data.cin = document.querySelector('input[name="cin"]')?.value || '';
+        data.gst_no = document.querySelector('input[name="gst_no"]')?.value || '';
+        data.pan_no = document.querySelector('input[name="pan_no"]')?.value || '';
+        data.village = document.querySelector('input[name="village"]')?.value || '';
+        data.district = document.querySelector('input[name="district"]')?.value || '';
+        data.state = document.querySelector('input[name="state"]')?.value || '';
+        data.contact_name = document.querySelector('input[name="contact_name"]')?.value || '';
+        data.contact_number = document.querySelector('input[name="contact_number"]')?.value || '';
+        data.email = document.querySelector('input[name="email"]')?.value || '';
+        data.primary_product = document.querySelector('textarea[name="primary_product"]')?.value || '';
+        data.daily_capacity = document.querySelector('input[name="daily_capacity"]')?.value || 0;
+        data.capacity_unit = document.querySelector('select[name="capacity_unit"]')?.value || '';
+        data.selling_price = document.querySelector('input[name="selling_price"]')?.value || 0;
+        data.usp = document.querySelector('textarea[name="usp"]')?.value || '';
+        data.target_customers = document.querySelector('textarea[name="target_customers"]')?.value || '';
+        data.competitors = document.querySelector('textarea[name="competitors"]')?.value || '';
+        data.strengths = document.querySelector('textarea[name="strengths"]')?.value || '';
+        data.weaknesses = document.querySelector('textarea[name="weaknesses"]')?.value || '';
+        data.opportunities = document.querySelector('textarea[name="opportunities"]')?.value || '';
+        data.threats = document.querySelector('textarea[name="threats"]')?.value || '';
+        data.local_employment = document.querySelector('input[name="local_employment"]')?.value || 0;
+        data.women_employment = document.querySelector('input[name="women_employment"]')?.value || 0;
+        data.youth_employment = document.querySelector('input[name="youth_employment"]')?.value || 0;
+        data.eco_friendly = document.querySelector('input[name="eco_friendly"]')?.value || '';
+        data.cibil_score = document.querySelector('input[name="cibil_score"]')?.value || 0;
+        data.declarant_name = document.querySelector('input[name="declarant_name"]')?.value || '';
+        data.designation = document.querySelector('input[name="designation"]')?.value || '';
+        data.place = document.querySelector('input[name="place"]')?.value || '';
+        data.declaration_date = document.querySelector('input[name="declaration_date"]')?.value || new Date().toISOString().split('T')[0];
+        data.land_cost = document.getElementById('land_cost')?.value || 0;
+        data.building_cost = document.getElementById('building_cost')?.value || 0;
+        data.machinery_total = document.getElementById('machinery_total')?.value || 0;
+        data.furniture_cost = document.getElementById('furniture_cost')?.value || 0;
+        data.working_capital = document.getElementById('working_capital')?.value || 0;
+        data.other_cost = document.getElementById('other_cost')?.value || 0;
+        data.promoter_contribution = document.getElementById('promoter_contribution')?.value || 0;
+        data.bank_loan = document.getElementById('bank_loan')?.value || 0;
+        data.subsidy = document.getElementById('subsidy')?.value || 0;
+        for (let i = 1; i <= 5; i++) {
+            data[`cap_year${i}`] = document.getElementById(`cap_year${i}`)?.value || 0;
+        }
+        data.mgmt_count = document.getElementById('mgmt_count')?.value || 0;
+        data.mgmt_salary = document.getElementById('mgmt_salary')?.value || 0;
+        data.sup_count = document.getElementById('sup_count')?.value || 0;
+        data.sup_salary = document.getElementById('sup_salary')?.value || 0;
+        data.skill_count = document.getElementById('skill_count')?.value || 0;
+        data.skill_salary = document.getElementById('skill_salary')?.value || 0;
+        data.unskill_count = document.getElementById('unskill_count')?.value || 0;
+        data.unskill_salary = document.getElementById('unskill_salary')?.value || 0;
+        data.admin_count = document.getElementById('admin_count')?.value || 0;
+        data.admin_salary = document.getElementById('admin_salary')?.value || 0;
+        data.cash_in_hand = document.getElementById('cash_in_hand')?.value || 0;
+        data.bank_balance = document.getElementById('bank_balance')?.value || 0;
+        data.inventory_value = document.getElementById('inventory_value')?.value || 0;
+        data.receivables = document.getElementById('receivables')?.value || 0;
+        data.short_term_loan = document.getElementById('short_term_loan')?.value || 0;
+        data.creditors = document.getElementById('creditors')?.value || 0;
+        data.long_term_loan = document.getElementById('long_term_loan')?.value || 0;
+        data.owner_capital = document.getElementById('owner_capital')?.value || 0;
+        data.retained_earnings = document.getElementById('retained_earnings')?.value || 0;
+        const uploadedImages = JSON.parse(localStorage.getItem('uploaded_images') || '{}');
+        data.uploaded_images = uploadedImages;
+        return data;
+    }
+
+    function previewImage(input, previewId) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewDiv = document.getElementById(previewId);
+                if (previewDiv) {
+                    previewDiv.innerHTML = `<img src="${e.target.result}" style="max-width:120px;max-height:80px;border-radius:8px;border:2px solid white;object-fit:cover;">`;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Attach preview events
+    document.getElementById('logoUpload')?.addEventListener('change', function(e) {
+        previewImage(this, 'logoPreview');
+    });
+    document.getElementById('productUpload')?.addEventListener('change', function(e) {
+        previewImage(this, 'productPreview');
+    });
+    document.getElementById('facilityUpload')?.addEventListener('change', function(e) {
+        previewImage(this, 'facilityPreview');
+    });
+    document.getElementById('teamUpload')?.addEventListener('change', function(e) {
+        previewImage(this, 'teamPreview');
+    });
+
+    // ========== IMAGE UPLOAD BUTTON HANDLER ==========
+    document.getElementById('uploadImagesBtn')?.addEventListener('click', async function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const btn = this;
+        const statusDiv = document.getElementById('imageUploadStatus');
+
+        const logoFile = document.getElementById('logoUpload')?.files[0];
+        const productFile = document.getElementById('productUpload')?.files[0];
+        const facilityFile = document.getElementById('facilityUpload')?.files[0];
+        const teamFile = document.getElementById('teamUpload')?.files[0];
+
+        if (!logoFile && !productFile && !facilityFile && !teamFile) {
+            alert('Please select at least one image');
+            return;
+        }
+
+        btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Uploading...';
+        btn.disabled = true;
+
+        if (statusDiv) {
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = '📤 Uploading images...';
+        }
+
+        const uploadedUrls = {};
+
+        // Upload logo
+        if (logoFile) {
+            const formData = new FormData();
+            formData.append('image', logoFile);
+            formData.append('type', 'logo');
+            try {
+                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) uploadedUrls.logo = result.url;
+            } catch (e) {
+                console.error('Logo upload error:', e);
+            }
+        }
+
+        // Upload product image
+        if (productFile) {
+            const formData = new FormData();
+            formData.append('image', productFile);
+            formData.append('type', 'product');
+            try {
+                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) uploadedUrls.product = result.url;
+            } catch (e) {
+                console.error('Product upload error:', e);
+            }
+        }
+
+        // Upload facility image
+        if (facilityFile) {
+            const formData = new FormData();
+            formData.append('image', facilityFile);
+            formData.append('type', 'facility');
+            try {
+                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) uploadedUrls.facility = result.url;
+            } catch (e) {
+                console.error('Facility upload error:', e);
+            }
+        }
+
+        // Upload team image
+        if (teamFile) {
+            const formData = new FormData();
+            formData.append('image', teamFile);
+            formData.append('type', 'team');
+            try {
+                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) uploadedUrls.team = result.url;
+            } catch (e) {
+                console.error('Team upload error:', e);
+            }
+        }
+
+        // Save to localStorage
+        localStorage.setItem('uploaded_images', JSON.stringify(uploadedUrls));
+
+        if (statusDiv) {
+            const count = Object.keys(uploadedUrls).length;
+            statusDiv.innerHTML = `✅ ${count} image(s) uploaded successfully!`;
+            statusDiv.style.color = '#d1fae5';
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        btn.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload All Images';
+            btn.disabled = false;
+        }, 2000);
+
+        console.log('Uploaded URLs:', uploadedUrls);
+    });
+
+    // Report Generation Button Handler (with Auto-Save to Supabase)
+    document.getElementById('generateReportBtn')?.addEventListener('click', async function() {
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Generating Report & Saving to Cloud...';
+        btn.disabled = true;
+
+        try {
+            const reportData = collectAllFormData();
+
+            // STEP 1: Save to Supabase
+            console.log('💾 Saving to Supabase...');
+            const saveResponse = await fetch('http://localhost:5000/api/dpr/save-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    reportData: reportData
+                })
+            });
+
+            const saveResult = await saveResponse.json();
+            if (saveResult.success) {
+                console.log('✅ Saved to cloud!');
+            } else {
+                console.warn('Save warning:', saveResult);
+            }
+
+            // STEP 2: Generate PDF
+            const response = await fetch('http://localhost:5000/api/dpr/generate-full-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reportData)
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `DPR_${reportData.business_name || 'Report'}_${Date.now()}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } else {
+                const error = await response.json();
+                alert('Error: ' + (error.error || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Report generation error:', error);
+            alert('Backend not running. Start server on port 5000');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    });
+
+    // Initialize
+    attachBalanceSheetEvents();
+    calculateBalanceSheet();
+    renderAuthUI();
 </script>
 </body>
+
 </html>
