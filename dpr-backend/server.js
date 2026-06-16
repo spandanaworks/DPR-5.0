@@ -578,7 +578,10 @@ app.post('/api/dpr/generate-full-report', async (req, res) => {
         
         // Generate PDF
         console.log('📄 Generating PDF...');
-        browser = await chromium.launch({ headless: true });
+        browser = await chromium.launch({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
         const page = await browser.newPage();
         await page.setContent(htmlTemplate, { waitUntil: 'networkidle0' });
         const pdfBuffer = await page.pdf({
