@@ -1333,7 +1333,7 @@
             formData.append('image', logoFile);
             formData.append('type', 'logo');
             try {
-                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                const response = await fetch(`${API_URL}/api/dpr/upload-image`, {
                     method: 'POST',
                     body: formData
                 });
@@ -1350,7 +1350,7 @@
             formData.append('image', productFile);
             formData.append('type', 'product');
             try {
-                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                const response = await fetch(`${API_URL}/api/dpr/upload-image`, {
                     method: 'POST',
                     body: formData
                 });
@@ -1367,7 +1367,7 @@
             formData.append('image', facilityFile);
             formData.append('type', 'facility');
             try {
-                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                const response = await fetch(`${API_URL}/api/dpr/upload-image`, {
                     method: 'POST',
                     body: formData
                 });
@@ -1384,7 +1384,7 @@
             formData.append('image', teamFile);
             formData.append('type', 'team');
             try {
-                const response = await fetch('http://localhost:5000/api/dpr/upload-image', {
+                const response = await fetch(`${API_URL}/api/dpr/upload-image`, {
                     method: 'POST',
                     body: formData
                 });
@@ -1428,7 +1428,7 @@
 
             // STEP 1: Save to Supabase
             console.log('💾 Saving to Supabase...');
-            const saveResponse = await fetch('http://localhost:5000/api/dpr/save-report', {
+           const saveResponse = await fetch(`${API_URL}/api/dpr/save-report`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1446,7 +1446,7 @@
             }
 
             // STEP 2: Generate PDF
-            const response = await fetch('http://localhost:5000/api/dpr/generate-full-report', {
+            const response = await fetch(`${API_URL}/api/dpr/generate-full-report`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
