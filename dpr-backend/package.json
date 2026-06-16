@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "postinstall": "npx playwright install chromium",
-    "render-build": "npm install && npx playwright install chromium"
+    "postinstall": "playwright install --with-deps chromium"
   },
   "dependencies": {
     "@google/genai": "^2.6.0",
@@ -26,5 +25,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
