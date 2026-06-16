@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://dpr-backend-alld.onrender.com/api/$1"
+    }
+  ]
+}
