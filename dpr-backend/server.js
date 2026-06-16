@@ -29,8 +29,9 @@ if (!fs.existsSync(uploadsDir)) {
 app.use(cors({
     origin: [
         'http://localhost:5500',
-        'https://dpr-frontend-git-main-spandanabhatworks-6883s-projects.vercel.app',
-        'https://dpr-frontend-fzgkqbthv-spandanabhatworks-6883s-projects.vercel.app'
+        'http://localhost:5000',
+        'https://dpr-frontend-khaki.vercel.app',
+        'https://dpr-frontend-git-main-spandanabhatworks-6883s-projects.vercel.app'
     ],
     credentials: true
 }));
